@@ -21,7 +21,7 @@ body {
 
 /* ==================== HEADER STYLES ==================== */
 .top-header {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: white;
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
     position: sticky;
     top: 0;
@@ -60,9 +60,9 @@ body {
 }
 
 .nav-link {
-    color: white;
+    color: #2196f3; /* Blue text color */
     text-decoration: none;
-    font-weight: 500;
+    font-weight: 600;
     font-size: 15px;
     padding: 8px 16px;
     border-radius: 8px;
@@ -78,7 +78,7 @@ body {
     transform: translateX(-50%);
     width: 0;
     height: 2px;
-    background: white;
+    background: #2196f3; /* Blue underline */
     transition: width 0.3s ease;
 }
 
@@ -89,10 +89,11 @@ body {
 
 .nav-link:hover,
 .nav-link.active {
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
+    background: #f0f9ff; /* Light blue on hover */
+    color: #2196f3;
 }
 
+/* Contact Menu - Black Theme */
 .contact-menu {
     position: relative;
 }
@@ -101,9 +102,9 @@ body {
     width: 40px;
     height: 40px;
     border: none;
-    background: rgba(255, 255, 255, 0.9);
-    color: #ff9800;
-    border-radius: 50%;
+    background: #333; /* Black background */
+    color: white;
+    border-radius: 8px;
     cursor: pointer;
     font-size: 18px;
     transition: all 0.3s ease;
@@ -113,9 +114,8 @@ body {
 }
 
 .menu-btn:hover {
-    background: white;
-    transform: scale(1.1);
-    box-shadow: 0 0 15px rgba(255, 152, 0, 0.3);
+    background: #555; /* Dark gray on hover */
+    transform: scale(1.05);
 }
 
 .contact-dropdown {
@@ -124,17 +124,17 @@ body {
     top: 100%;
     right: 0;
     margin-top: 10px;
-    background: white;
+    background: #333; /* Black background */
     border-radius: 12px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.3);
     min-width: 180px;
     overflow: hidden;
     z-index: 100;
-    animation: slideDown 0.3s ease;
 }
 
 .contact-dropdown.active {
     display: block;
+    animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -153,11 +153,11 @@ body {
     align-items: center;
     gap: 12px;
     padding: 14px 20px;
-    color: #333;
+    color: white;
     text-decoration: none;
     transition: background 0.3s ease;
     font-size: 14px;
-    border-bottom: 1px solid #f0f0f0;
+    border-bottom: 1px solid #444;
 }
 
 .contact-dropdown a:last-child {
@@ -165,11 +165,11 @@ body {
 }
 
 .contact-dropdown a:hover {
-    background: #f8f9fa;
+    background: #444;
 }
 
 .contact-dropdown a i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
     font-size: 16px;
 }
 
@@ -182,20 +182,19 @@ body {
     align-items: center;
     gap: 10px;
     padding: 8px 15px;
-    background: rgba(255, 255, 255, 0.2);
+    background: #f0f9ff; /* Light blue */
     border-radius: 25px;
     margin-right: 15px;
-    backdrop-filter: blur(10px);
 }
 
 .user-info i {
     font-size: 24px;
-    color: white;
+    color: #2196f3; /* Blue icon */
 }
 
 .user-badge {
-    background: white;
-    color: #ff9800;
+    background: #2196f3; /* Blue badge */
+    color: white;
     padding: 3px 10px;
     border-radius: 12px;
     font-size: 12px;
@@ -207,8 +206,8 @@ body {
     align-items: center;
     gap: 8px;
     padding: 10px 20px;
-    background: white;
-    color: #ff9800;
+    background: #2196f3; /* Blue button */
+    color: white;
     border: none;
     border-radius: 25px;
     font-weight: 600;
@@ -217,9 +216,9 @@ body {
 }
 
 .nav-btn:hover {
-    background: #fff;
+    background: #1976d2; /* Darker blue on hover */
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.2);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.2);
 }
 
 .auth-dropdown {
@@ -261,13 +260,13 @@ body {
 }
 
 .auth-dropdown a i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
 }
 
 /* ==================== HERO SECTION ==================== */
 .hero-section {
     position: relative;
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: linear-gradient(135deg, #0097a7 0%, #00838f 100%); /* Blue-green gradient */
     padding: 40px 20px 180px;
     overflow: hidden;
 }
@@ -286,15 +285,18 @@ body {
     height: 100%;
     object-fit: cover;
     opacity: 0.8;
-    animation: fadeIn 1s ease;
+    animation: bannerFloat 20s ease-in-out infinite alternate;
 }
 
-@keyframes fadeIn {
-    from {
-        opacity: 0;
+@keyframes bannerFloat {
+    0% {
+        transform: scale(1) translateY(0);
     }
-    to {
-        opacity: 0.8;
+    50% {
+        transform: scale(1.05) translateY(-10px);
+    }
+    100% {
+        transform: scale(1) translateY(0);
     }
 }
 
@@ -351,13 +353,13 @@ body {
 }
 
 .search-field:focus-within {
-    border-color: #ff9800;
+    border-color: #2196f3; /* Blue border */
     background: white;
     transform: translateY(-2px);
 }
 
 .search-field i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
     font-size: 18px;
 }
 
@@ -370,15 +372,25 @@ body {
     font-weight: 500;
     color: #333;
     outline: none;
+    width: 100%;
 }
 
 .search-field input::placeholder {
     color: #999;
 }
 
+/* Placeholder styling for date input */
+.search-field input[type="date"] {
+    color: #333;
+}
+
+.search-field input[type="date"]:invalid {
+    color: #999;
+}
+
 .search-btn {
     padding: 15px 30px;
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); /* Blue gradient */
     color: white;
     border: none;
     border-radius: 10px;
@@ -394,7 +406,7 @@ body {
 
 .search-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.4);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.4);
 }
 
 /* ==================== FEATURES SECTION ==================== */
@@ -443,12 +455,12 @@ body {
 
 .feature-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(255, 152, 0, 0.15);
+    box-shadow: 0 15px 30px rgba(33, 150, 243, 0.15);
 }
 
 .feature-icon {
     font-size: 48px;
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
     margin-bottom: 20px;
     transition: transform 0.3s ease;
 }
@@ -493,7 +505,7 @@ body {
     transform: translateX(-50%);
     width: 80px;
     height: 4px;
-    background: #ff9800;
+    background: #2196f3; /* Blue underline */
     border-radius: 2px;
 }
 
@@ -535,7 +547,7 @@ body {
 
 .step-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 10px 30px rgba(255, 152, 0, 0.2);
+    box-shadow: 0 10px 30px rgba(33, 150, 243, 0.2);
 }
 
 .step-number {
@@ -545,7 +557,7 @@ body {
     transform: translateX(-50%);
     width: 50px;
     height: 50px;
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); /* Blue gradient */
     color: white;
     border-radius: 50%;
     display: flex;
@@ -553,12 +565,12 @@ body {
     justify-content: center;
     font-size: 24px;
     font-weight: 700;
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
 
 .step-icon {
     font-size: 64px;
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
     margin: 20px 0;
     transition: transform 0.3s ease;
 }
@@ -581,7 +593,7 @@ body {
 
 /* ==================== CTA SECTION ==================== */
 .cta-section {
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: linear-gradient(135deg, #4caf50 0%, #388e3c 100%); /* Green gradient as per screenshot */
     padding: 80px 20px;
     margin: 60px 20px;
     border-radius: 24px;
@@ -622,7 +634,7 @@ body {
 .cta-btn {
     padding: 18px 45px;
     background: white;
-    color: #ff9800;
+    color: #4caf50; /* Green text */
     border: none;
     border-radius: 50px;
     font-size: 18px;
@@ -735,12 +747,12 @@ body {
 .safety-item:hover {
     background: #fff;
     transform: translateX(10px);
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.1);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.1);
 }
 
 .safety-item i {
     font-size: 32px;
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
     margin-top: 5px;
 }
 
@@ -761,7 +773,7 @@ body {
     align-items: center;
     gap: 10px;
     padding: 15px 35px;
-    background: #ff9800;
+    background: #2196f3; /* Blue button */
     color: white;
     text-decoration: none;
     border-radius: 50px;
@@ -771,9 +783,9 @@ body {
 }
 
 .learn-more-btn:hover {
-    background: #f57c00;
+    background: #1976d2;
     transform: translateY(-3px);
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.3);
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.3);
 }
 
 /* ==================== TESTIMONIALS SECTION ==================== */
@@ -837,7 +849,7 @@ body {
     height: 60px;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #ff9800;
+    border: 3px solid #2196f3; /* Blue border */
 }
 
 .testimonial-author h4 {
@@ -876,7 +888,7 @@ body {
 }
 
 .booking-container h2 i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
 }
 
 .booking-form {
@@ -905,7 +917,7 @@ body {
 }
 
 .form-group label i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
 }
 
 .form-group input,
@@ -920,13 +932,13 @@ body {
 .form-group input:focus,
 .form-group select:focus {
     outline: none;
-    border-color: #ff9800;
+    border-color: #2196f3; /* Blue border */
 }
 
 .submit-btn {
     width: 100%;
     padding: 18px;
-    background: linear-gradient(135deg, #ff9800 0%, #f57c00 100%);
+    background: linear-gradient(135deg, #2196f3 0%, #1976d2 100%); /* Blue gradient */
     color: white;
     border: none;
     border-radius: 12px;
@@ -942,7 +954,7 @@ body {
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+    box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
 }
 
 .results-section {
@@ -960,8 +972,8 @@ body {
 }
 
 .ride-card:hover {
-    border-color: #ff9800;
-    box-shadow: 0 5px 15px rgba(255, 152, 0, 0.1);
+    border-color: #2196f3; /* Blue border */
+    box-shadow: 0 5px 15px rgba(33, 150, 243, 0.1);
     transform: translateY(-2px);
 }
 
@@ -1001,19 +1013,19 @@ body {
 }
 
 .info-item i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
 }
 
 .price-info {
     font-size: 24px;
     font-weight: 700;
-    color: #ff9800;
+    color: #2196f3; /* Blue price */
     margin: 15px 0;
 }
 
 .book-now-btn {
     padding: 12px 30px;
-    background: #ff9800;
+    background: #2196f3; /* Blue button */
     color: white;
     border: none;
     border-radius: 10px;
@@ -1026,7 +1038,7 @@ body {
 }
 
 .book-now-btn:hover {
-    background: #f57c00;
+    background: #1976d2;
     transform: scale(1.05);
 }
 
@@ -1044,7 +1056,7 @@ body {
     color: #333;
     margin-bottom: 20px;
     padding-bottom: 10px;
-    border-bottom: 3px solid #ff9800;
+    border-bottom: 3px solid #2196f3; /* Blue border */
 }
 
 /* ==================== MODAL STYLES ==================== */
@@ -1116,7 +1128,7 @@ body {
 }
 
 .modal-content h2 i {
-    color: #ff9800;
+    color: #2196f3; /* Blue icon */
 }
 
 .modal-footer {
@@ -1126,7 +1138,7 @@ body {
 }
 
 .modal-footer a {
-    color: #ff9800;
+    color: #2196f3; /* Blue link */
     text-decoration: none;
     font-weight: 600;
 }
@@ -1146,7 +1158,7 @@ body {
 .tagline {
     font-size: 18px;
     font-style: italic;
-    color: #ff9800;
+    color: #2196f3; /* Blue tagline */
     font-weight: 600;
     margin-bottom: 10px;
 }
@@ -1163,7 +1175,7 @@ body {
     font-size: 20px;
     font-weight: 700;
     margin-bottom: 20px;
-    color: #ff9800;
+    color: #2196f3; /* Blue headings */
 }
 
 .footer-col p,
@@ -1187,7 +1199,7 @@ body {
 }
 
 .footer-col a:hover {
-    color: #ff9800;
+    color: #2196f3; /* Blue on hover */
 }
 
 .social-links {
@@ -1209,7 +1221,7 @@ body {
 }
 
 .social-links a:hover {
-    background: #ff9800;
+    background: #2196f3; /* Blue background */
     color: white;
     transform: translateY(-3px);
 }
@@ -1222,7 +1234,7 @@ body {
 }
 
 .footer-bottom i {
-    color: #ff9800;
+    color: #2196f3; /* Blue heart */
 }
 
 /* ==================== RESPONSIVE STYLES ==================== */
@@ -1339,8 +1351,8 @@ body {
     display: inline-block;
     width: 20px;
     height: 20px;
-    border: 3px solid rgba(255, 152, 0, 0.3);
+    border: 3px solid rgba(33, 150, 243, 0.3);
     border-radius: 50%;
-    border-top-color: #ff9800;
+    border-top-color: #2196f3;
     animation: spin 1s ease-in-out infinite;
 }
