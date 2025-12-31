@@ -30,14 +30,31 @@ function initializePage() {
 function toggleAuthDropdown() {
     const dropdown = document.getElementById('authDropdown');
     dropdown.classList.toggle('active');
+    // Close contact menu if open
+    document.getElementById('contactDropdown').classList.remove('active');
+}
+
+// Toggle contact menu
+function toggleContactMenu() {
+    const dropdown = document.getElementById('contactDropdown');
+    dropdown.classList.toggle('active');
+    // Close auth dropdown if open
+    document.getElementById('authDropdown').classList.remove('active');
 }
 
 // Close dropdown when clicking outside
 document.addEventListener('click', function(e) {
-    const dropdown = document.getElementById('authDropdown');
+    const authDropdown = document.getElementById('authDropdown');
     const authBtn = document.getElementById('authBtn');
-    if (!authBtn.contains(e.target) && !dropdown.contains(e.target)) {
-        dropdown.classList.remove('active');
+    const contactDropdown = document.getElementById('contactDropdown');
+    const menuBtn = document.querySelector('.menu-btn');
+    
+    if (!authBtn.contains(e.target) && !authDropdown.contains(e.target)) {
+        authDropdown.classList.remove('active');
+    }
+    
+    if (menuBtn && !menuBtn.contains(e.target) && !contactDropdown.contains(e.target)) {
+        contactDropdown.classList.remove('active');
     }
 });
 
