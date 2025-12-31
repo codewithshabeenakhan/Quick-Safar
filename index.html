@@ -13,7 +13,8 @@
     <header class="top-header">
         <div class="header-container">
             <div class="logo-section">
-                <img src="https://i.postimg.cc/59sXfFyc/quick-safar-logo.png" alt="Quick Safar Logo" class="logo-img">
+                <!-- Quick Safar Logo यहाँ updated -->
+                <img src="https://i.postimg.cc/0jW3Zg8T/quick-safar-logo-new.png" alt="Quick Safar Logo" class="logo-img">
             </div>
             
             <nav class="nav-menu">
@@ -22,19 +23,17 @@
                 <a href="#services" class="nav-link">Services</a>
                 <a href="#contact" class="nav-link">Contact</a>
                 
+                <!-- Updated Contact Menu - 3 dots with only email and phone -->
                 <div class="contact-menu">
                     <button class="menu-btn" onclick="toggleContactMenu()">
-                        <i class="fas fa-bars"></i>
+                        <i class="fas fa-ellipsis-v"></i> <!-- 3 dots icon -->
                     </button>
                     <div class="contact-dropdown" id="contactDropdown">
-                        <a href="mailto:pancardp2@gmail.com">
-                            <i class="fas fa-envelope"></i> pancardp2@gmail.com
+                        <a href="#" onclick="redirectToEmail()">
+                            <i class="fas fa-envelope"></i> Email
                         </a>
-                        <a href="tel:+917668076647">
-                            <i class="fas fa-phone"></i> +91 76680 76647
-                        </a>
-                        <a href="#support" class="support-link">
-                            <i class="fas fa-headset"></i> 24/7 Support
+                        <a href="#" onclick="redirectToPhone()">
+                            <i class="fas fa-phone"></i> Phone
                         </a>
                     </div>
                 </div>
@@ -67,8 +66,9 @@
 
     <!-- Hero Section -->
     <section class="hero-section" id="home">
+        <!-- Updated Banner यहाँ -->
         <div class="hero-banner">
-            <img src="https://i.postimg.cc/dVvwdYkr/hero-banner.png" alt="Quick Safar - Share Rides" class="banner-img">
+            <img src="https://i.postimg.cc/L4QVgBqm/quick-safar-banner.png" alt="Quick Safar - Share Rides" class="banner-img">
         </div>
         <div class="hero-content">
             <h1 class="hero-title">Your pick of rides at low prices</h1>
@@ -110,31 +110,30 @@
         </div>
     </section>
 
-    <!-- Features Section -->
+    <!-- Features Section - Updated to show only 3 features side by side -->
     <section class="features-section" id="services">
         <div class="container">
-            <div class="feature-card">
-                <i class="fas fa-tag feature-icon"></i>
-                <h3>Unbeatable Prices</h3>
-                <p>Experience the most affordable carpooling in India. Travel smart, save big! Our transparent pricing ensures you get the best value for every journey.</p>
-            </div>
+            <h2 class="section-title">Why Choose Quick Safar</h2>
+            <p class="section-subtitle">Experience the best carpooling in India</p>
             
-            <div class="feature-card">
-                <i class="fas fa-shield-halved feature-icon"></i>
-                <h3>Travel with Confidence</h3>
-                <p>Your safety is our top priority. Every driver is thoroughly verified with government IDs and complete profiles. Travel worry-free with trusted companions.</p>
-            </div>
-            
-            <div class="feature-card">
-                <i class="fas fa-bolt feature-icon"></i>
-                <h3>Quick & Easy Booking</h3>
-                <p>Find your perfect ride in seconds! Our smart matching technology connects you with rides heading your way. Book instantly with just a few taps.</p>
-            </div>
-            
-            <div class="feature-card">
-                <i class="fas fa-leaf feature-icon"></i>
-                <h3>Eco-Friendly Travel</h3>
-                <p>Reduce your carbon footprint while saving money. Share rides, reduce traffic, and contribute to a greener planet. Every shared ride makes a difference!</p>
+            <div class="features-container">
+                <div class="feature-card">
+                    <i class="fas fa-tag feature-icon"></i>
+                    <h3>Unbeatable Prices</h3>
+                    <p>Experience the most affordable carpooling in India. Travel smart, save big! Our transparent pricing ensures you get the best value for every journey.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-shield-halved feature-icon"></i>
+                    <h3>Travel with Confidence</h3>
+                    <p>Your safety is our top priority. Every driver is thoroughly verified with government IDs and complete profiles. Travel worry-free with trusted companions.</p>
+                </div>
+                
+                <div class="feature-card">
+                    <i class="fas fa-bolt feature-icon"></i>
+                    <h3>Quick & Easy Booking</h3>
+                    <p>Find your perfect ride in seconds! Our smart matching technology connects you with rides heading your way. Book instantly with just a few taps.</p>
+                </div>
             </div>
         </div>
     </section>
@@ -173,24 +172,6 @@
                     <p>Meet your driver at the agreed pickup point. Enjoy a comfortable journey with fellow travelers. Rate your experience and help our community grow!</p>
                 </div>
             </div>
-
-            <div class="demo-info">
-                <h3>For Drivers - Share & Earn!</h3>
-                <div class="driver-steps">
-                    <div class="driver-step">
-                        <i class="fas fa-id-card"></i>
-                        <p><strong>Step 1:</strong> Register as a driver with your vehicle details and documents</p>
-                    </div>
-                    <div class="driver-step">
-                        <i class="fas fa-route"></i>
-                        <p><strong>Step 2:</strong> Publish your upcoming trips with date, time, and available seats</p>
-                    </div>
-                    <div class="driver-step">
-                        <i class="fas fa-money-bill-wave"></i>
-                        <p><strong>Step 3:</strong> Accept passenger bookings and earn while you travel!</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -205,7 +186,7 @@
         </div>
     </section>
 
-    <!-- Safety Section -->
+    <!-- Safety Section - Updated with new content -->
     <section class="safety-section">
         <div class="container">
             <div class="safety-content">
@@ -213,8 +194,8 @@
                     <img src="https://i.postimg.cc/qRK8B7Zn/safety-illustration.png" alt="Help us keep you safe" class="safety-img">
                 </div>
                 <div class="safety-text">
-                    <h2>Your Safety is Our Mission</h2>
-                    <p>At Quick Safar, we're committed to making every journey secure and trustworthy. But when issues arise, we want you to be informed and protected.</p>
+                    <h2>Help us keep you safe from scams</h2>
+                    <p>At Quick Safar, we're working hard to make our platform as secure as it can be. But when scams do happen, we want you to know exactly how to avoid and report them. Follow our tips to help us keep you safe.</p>
                     
                     <div class="safety-features">
                         <div class="safety-item">
@@ -240,21 +221,22 @@
                         </div>
                     </div>
                     
-                    <a href="mailto:pancardp2@gmail.com" class="learn-more-btn">
-                        <i class="fas fa-info-circle"></i> Get Safety Tips
+                    <a href="#" onclick="redirectToEmail()" class="learn-more-btn">
+                        <i class="fas fa-info-circle"></i> Learn more
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Testimonials Section -->
+    <!-- Testimonials Section - Updated to show only 3 testimonials -->
     <section class="testimonials-section">
         <div class="container">
             <h2 class="section-title">What Our Riders Say</h2>
             <p class="section-subtitle">Real experiences from real travelers</p>
             
-            <div class="testimonials-grid">
+            <div class="testimonials-container">
+                <!-- Updated testimonial 1 -->
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
@@ -268,11 +250,12 @@
                         <img src="https://i.pravatar.cc/150?img=12" alt="Nabeel Khan">
                         <div>
                             <h4>Nabeel Khan</h4>
-                            <p>Regular Commuter, Delhi</p>
+                            <p>Web Developer, Delhi</p>
                         </div>
                     </div>
                 </div>
                 
+                <!-- Updated testimonial 2 -->
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
@@ -281,48 +264,31 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"As a female traveler, safety is my biggest concern. Quick Safar's verified profiles and rating system give me peace of mind. I've made some wonderful travel companions and the journey is always pleasant!"</p>
+                    <p class="testimonial-text">"As a frequent traveler, safety is my biggest concern. Quick Safar's verified profiles and rating system give me peace of mind. I've made some wonderful travel companions and the journey is always pleasant!"</p>
                     <div class="testimonial-author">
                         <img src="https://i.pravatar.cc/150?img=45" alt="Shabeena Khan">
                         <div>
                             <h4>Shabeena Khan</h4>
-                            <p>Marketing Professional, Noida</p>
+                            <p>Travel Consultant, Mumbai</p>
                         </div>
                     </div>
                 </div>
                 
+                <!-- New testimonial added -->
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <p class="testimonial-text">"I started as a driver to cover my fuel costs, and now I've built a regular network of passengers. Quick Safar helped me earn extra income while doing something I already do - drive to work every day!"</p>
+                    <p class="testimonial-text">"Excellent service! Traveled from Delhi to Jaipur at half the cost of a cab. The driver was professional, the car was clean, and the journey was comfortable. Highly recommend Quick Safar for intercity travel!"</p>
                     <div class="testimonial-author">
-                        <img src="https://i.pravatar.cc/150?img=33" alt="Dev Sharma">
+                        <img src="https://i.pravatar.cc/150?img=28" alt="Rohit Verma">
                         <div>
-                            <h4>Dev Sharma</h4>
-                            <p>Software Engineer & Driver, Gurgaon</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="testimonial-card">
-                    <div class="stars">
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                        <i class="fas fa-star"></i>
-                    </div>
-                    <p class="testimonial-text">"Excellent platform for intercity travel! Traveled from Delhi to Jaipur at half the cost of a cab. The driver was friendly, the car was clean, and the journey was comfortable. Highly recommend Quick Safar!"</p>
-                    <div class="testimonial-author">
-                        <img src="https://i.pravatar.cc/150?img=68" alt="Nabeel Dev">
-                        <div>
-                            <h4>Nabeel Dev</h4>
-                            <p>Business Owner, Delhi NCR</p>
+                            <h4>Rohit Verma</h4>
+                            <p>Business Consultant, Delhi</p>
                         </div>
                     </div>
                 </div>
@@ -572,7 +538,7 @@
                         <li><a href="#help">Help Center</a></li>
                         <li><a href="#terms">Terms of Service</a></li>
                         <li><a href="#privacy">Privacy Policy</a></li>
-                        <li><a href="mailto:pancardp2@gmail.com">Contact Us</a></li>
+                        <li><a href="#" onclick="redirectToEmail()">Contact Us</a></li>
                         <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </div>
@@ -580,8 +546,8 @@
                 <div class="footer-col">
                     <h4>Contact Info</h4>
                     <ul>
-                        <li><i class="fas fa-phone"></i> <a href="tel:+917668076647">+91 76680 76647</a></li>
-                        <li><i class="fas fa-envelope"></i> <a href="mailto:pancardp2@gmail.com">pancardp2@gmail.com</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="#" onclick="redirectToPhone()">+91 76680 76647</a></li>
+                        <li><i class="fas fa-envelope"></i> <a href="#" onclick="redirectToEmail()">pancardp2@gmail.com</a></li>
                         <li><i class="fas fa-clock"></i> 24/7 Support Available</li>
                         <li><i class="fas fa-map-marker-alt"></i> Serving All India</li>
                     </ul>
