@@ -16,7 +16,27 @@ document.addEventListener('DOMContentLoaded', function() {
     dateInputs.forEach(input => {
         if (input) input.min = today;
     });
+    
+    // Add animation effects
+    addScrollAnimations();
 });
+
+// Add scroll animations
+function addScrollAnimations() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animated');
+            }
+        });
+    }, {
+        threshold: 0.1
+    });
+    
+    document.querySelectorAll('.feature-card, .step-card, .testimonial-card, .safety-item').forEach(el => {
+        observer.observe(el);
+    });
+}
 
 // Initialize page
 function initializePage() {
@@ -82,6 +102,17 @@ function updateUIBasedOnLogin() {
     }
 }
 
+// Redirect functions for email and phone
+function redirectToEmail() {
+    alert('Email: pancardp2@gmail.com\n\nNote: This is a demo. In production, this would open your email client.');
+    // In production: window.location.href = 'mailto:pancardp2@gmail.com';
+}
+
+function redirectToPhone() {
+    alert('Phone: +91 76680 76647\n\nNote: This is a demo. In production, this would initiate a phone call.');
+    // In production: window.location.href = 'tel:+917668076647';
+}
+
 // Modal functions
 function openLoginModal() {
     document.getElementById('loginModal').classList.add('active');
@@ -132,10 +163,10 @@ function handleLogin(event) {
         closeModal('loginModal');
         updateUIBasedOnLogin();
         showBookingSection();
-        alert('Login successful! Welcome back, ' + currentUser.name);
+        showNotification('Login successful! Welcome back, ' + currentUser.name, 'success');
         document.getElementById('loginForm').reset();
     } else {
-        alert('Invalid credentials or user type. Please try again.');
+        showNotification('Invalid credentials or user type. Please try again.', 'error');
     }
 }
 
@@ -149,7 +180,7 @@ function handleSignup(event) {
     const userType = document.getElementById('signupUserType').value;
     
     if (users.find(u => u.email === email)) {
-        alert('Email already registered! Please login instead.');
+        showNotification('Email already registered! Please login instead.', 'error');
         return;
     }
     
@@ -164,7 +195,7 @@ function handleSignup(event) {
     users.push(newUser);
     sessionStorage.setItem('users', JSON.stringify(users));
     
-    alert('Account created successfully! Please login to continue.');
+    showNotification('Account created successfully! Please login to continue.', 'success');
     document.getElementById('signupForm').reset();
     closeModal('signupModal');
     openLoginModal();
@@ -177,10 +208,95 @@ function logout() {
         sessionStorage.removeItem('currentUser');
         updateUIBasedOnLogin();
         document.getElementById('bookingSection').style.display = 'none';
-        alert('Logged out successfully!');
+        showNotification('Logged out successfully!', 'info');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
+
+// Show notification
+function showNotification(message, type = 'info') {
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.innerHTML = `
+        <span>${message}</span>
+        <button onclick="this.parentElement.remove()">&times;</button>
+    `;
+    
+    document.body.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.classList.add('show');
+    }, 10);
+    
+    setTimeout(() => {
+        notification.classList.remove('show');
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// Add notification styles dynamically
+const style = document.createElement('style');
+style.textContent = `
+    .notification {
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        padding: 15px 20px;
+        border-radius: 10px;
+        color: white;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 15px;
+        min-width: 300px;
+        max-width: 400px;
+        transform: translateX(150%);
+        transition: transform 0.3s ease;
+        z-index: 3000;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+    
+    .notification.show {
+        transform: translateX(0);
+    }
+    
+    .notification-success {
+        background: #4caf50;
+        border-left: 5px solid #2e7d32;
+    }
+    
+    .notification-error {
+        background: #f44336;
+        border-left: 5px solid #c62828;
+    }
+    
+    .notification-info {
+        background: #2196f3;
+        border-left: 5px solid #1565c0;
+    }
+    
+    .notification button {
+        background: transparent;
+        border: none;
+        color: white;
+        font-size: 20px;
+        cursor: pointer;
+        padding: 0;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        transition: background 0.3s ease;
+    }
+    
+    .notification button:hover {
+        background: rgba(255,255,255,0.2);
+    }
+`;
+document.head.appendChild(style);
 
 // Show booking section based on user type
 function showBookingSection() {
@@ -202,7 +318,7 @@ function showBookingSection() {
             loadDriverBookings();
         }
         
-        // Scroll to booking section
+        // Scroll to booking section with animation
         setTimeout(() => {
             bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }, 300);
@@ -217,18 +333,18 @@ function searchRidesFromHero() {
     const passengers = document.getElementById('heroPassengerCount').value;
     
     if (!from || !to || !date) {
-        alert('Please fill all search fields');
+        showNotification('Please fill all search fields', 'error');
         return;
     }
     
     if (!currentUser) {
-        alert('Please login to search and book rides');
+        showNotification('Please login to search and book rides', 'info');
         openLoginModal();
         return;
     }
     
     if (currentUser.type !== 'passenger') {
-        alert('Only passengers can search for rides. Please login with a passenger account.');
+        showNotification('Only passengers can search for rides. Please login with a passenger account.', 'error');
         return;
     }
     
@@ -248,7 +364,7 @@ function searchRidesFromHero() {
 // Search available rides
 function searchAvailableRides() {
     if (!currentUser) {
-        alert('Please login to search rides');
+        showNotification('Please login to search rides', 'info');
         openLoginModal();
         return;
     }
@@ -259,7 +375,7 @@ function searchAvailableRides() {
     const passengers = parseInt(document.getElementById('bookingPassengers').value);
     
     if (!from || !to || !date) {
-        alert('Please fill all search fields');
+        showNotification('Please fill all search fields', 'error');
         return;
     }
     
@@ -292,7 +408,7 @@ function displaySearchResults(rides, passengers) {
     }
     
     resultsSection.innerHTML = `
-        <h3 style="margin-bottom: 20px; color: #00838f;">
+        <h3 style="margin-bottom: 20px; color: #333;">
             <i class="fas fa-car"></i> Available Rides (${rides.length})
         </h3>
         ${rides.map(ride => `
@@ -335,7 +451,7 @@ function displaySearchResults(rides, passengers) {
 // Book a ride
 function bookRide(rideId, passengers) {
     if (!currentUser) {
-        alert('Please login to book a ride');
+        showNotification('Please login to book a ride', 'info');
         openLoginModal();
         return;
     }
@@ -343,7 +459,7 @@ function bookRide(rideId, passengers) {
     const ride = drivers.find(d => d.id === rideId);
     
     if (!ride || ride.availableSeats < passengers) {
-        alert('Sorry, this ride is no longer available or doesn\'t have enough seats.');
+        showNotification('Sorry, this ride is no longer available or doesn\'t have enough seats.', 'error');
         searchAvailableRides();
         return;
     }
@@ -378,7 +494,7 @@ function bookRide(rideId, passengers) {
         
         saveData();
         
-        alert(`🎉 Booking Confirmed!\n\nBooking ID: ${booking.id}\nTotal Amount: ₹${totalFare}\n\nThank you for choosing Quick Safar!`);
+        showNotification(`Booking Confirmed! Booking ID: ${booking.id}`, 'success');
         
         loadUserBookings();
         searchAvailableRides();
@@ -388,13 +504,13 @@ function bookRide(rideId, passengers) {
 // Publish ride (for drivers)
 function publishRide() {
     if (!currentUser) {
-        alert('Please login to publish a ride');
+        showNotification('Please login to publish a ride', 'info');
         openLoginModal();
         return;
     }
     
     if (currentUser.type !== 'driver') {
-        alert('Only drivers can publish rides');
+        showNotification('Only drivers can publish rides', 'error');
         return;
     }
     
@@ -408,7 +524,7 @@ function publishRide() {
     const fare = parseInt(document.getElementById('fareAmount').value);
     
     if (!name || !vehicle || !from || !to || !date || !time || !fare) {
-        alert('Please fill all fields');
+        showNotification('Please fill all fields', 'error');
         return;
     }
     
@@ -430,7 +546,7 @@ function publishRide() {
     drivers.push(newRide);
     saveData();
     
-    alert('🚗 Ride published successfully!\n\nYour ride is now visible to passengers.');
+    showNotification('Ride published successfully! Your ride is now visible to passengers.', 'success');
     
     // Clear form
     document.getElementById('driverName').value = '';
@@ -608,7 +724,7 @@ function loadDriverBookings() {
                     <span>${booking.seats} seat${booking.seats > 1 ? 's' : ''}</span>
                 </div>
             </div>
-            <div class="price-info" style="font-size: 20px; color: #00897b;">
+            <div class="price-info" style="font-size: 20px; color: #ff9800;">
                 Your Earnings: ₹${booking.fare}
             </div>
             <p style="color: #999; font-size: 13px; margin-top: 10px;">
