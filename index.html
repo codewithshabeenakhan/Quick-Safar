@@ -3,610 +3,381 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quick Safar - Your Ride, Your Way</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    <title>Quick Safar - Your Reliable Rideshare Partner</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&family=Righteous&display=swap" rel="stylesheet">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar">
-        <div class="container">
-            <div class="nav-content">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-car"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>Quick Safar</h1>
-                        <p>Safe & Smart Rides</p>
-                    </div>
-                </div>
-                
-                <div class="nav-links">
-                    <a href="#home" class="nav-link active">Home</a>
-                    <a href="#how-it-works" class="nav-link">How it Works</a>
-                    <a href="#rides" class="nav-link">Find Rides</a>
-                    <a href="#offer-ride" class="nav-link">Offer Ride</a>
-                    <a href="#contact" class="nav-link">Contact</a>
-                </div>
-                
-                <div class="auth-buttons">
-                    <button id="loginBtn" class="btn btn-outline">
-                        <i class="fas fa-sign-in-alt"></i> Login
-                    </button>
-                    <button id="signupBtn" class="btn btn-primary">
-                        <i class="fas fa-user-plus"></i> Sign Up
-                    </button>
-                </div>
-                
-                <div id="userProfile" class="user-profile hidden">
-                    <div class="profile-info">
-                        <div class="avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="user-details">
-                            <span class="user-name" id="userName"></span>
-                            <span class="user-type" id="userType"></span>
-                        </div>
-                    </div>
-                    <button id="logoutBtn" class="btn btn-logout">
-                        <i class="fas fa-sign-out-alt"></i>
-                    </button>
-                </div>
-                
-                <button class="mobile-menu-btn">
-                    <i class="fas fa-bars"></i>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Mobile Menu -->
-    <div class="mobile-menu">
-        <div class="mobile-menu-content">
-            <a href="#home" class="mobile-nav-link active">Home</a>
-            <a href="#how-it-works" class="mobile-nav-link">How it Works</a>
-            <a href="#rides" class="mobile-nav-link">Find Rides</a>
-            <a href="#offer-ride" class="mobile-nav-link">Offer Ride</a>
-            <a href="#contact" class="mobile-nav-link">Contact</a>
-            <div class="mobile-auth">
-                <button id="mobileLoginBtn" class="btn btn-outline">Login</button>
-                <button id="mobileSignupBtn" class="btn btn-primary">Sign Up</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Login/Signup Modal -->
-    <div id="authModal" class="modal">
-        <div class="modal-content">
-            <span class="close">&times;</span>
-            <div class="modal-header">
-                <h2><i class="fas fa-user-circle"></i> Welcome to Quick Safar</h2>
-                <p>Join our community of trusted riders and drivers</p>
+    <!-- Top Header -->
+    <header class="top-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <img src="https://i.ibb.co/hKq7fXy/logo.png" alt="Quick Safar Logo" class="logo-img">
+                <h1 class="logo-text">Quick Safar</h1>
             </div>
             
-            <div class="tab-buttons">
-                <button class="tab-btn active" data-tab="login">Login</button>
-                <button class="tab-btn" data-tab="signup-passenger">Passenger Signup</button>
-                <button class="tab-btn" data-tab="signup-driver">Driver Signup</button>
-            </div>
-
-            <!-- Login Form -->
-            <form id="loginForm" class="auth-form active">
-                <div class="form-group">
-                    <label for="loginEmail"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="loginEmail" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginPassword"><i class="fas fa-lock"></i> Password</label>
-                    <input type="password" id="loginPassword" placeholder="Enter your password" required>
-                </div>
-                <div class="form-group">
-                    <label for="loginUserType"><i class="fas fa-user-tag"></i> Login as:</label>
-                    <div class="user-type-select">
-                        <label class="radio-label">
-                            <input type="radio" name="userType" value="passenger" checked>
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Passenger</span>
-                        </label>
-                        <label class="radio-label">
-                            <input type="radio" name="userType" value="driver">
-                            <span class="radio-custom"></span>
-                            <span class="radio-text">Driver</span>
-                        </label>
+            <nav class="nav-menu">
+                <div class="user-section" id="userSection">
+                    <div class="user-info" id="userInfo" style="display: none;">
+                        <i class="fas fa-user-circle"></i>
+                        <span id="userName"></span>
+                        <span id="userType" class="user-badge"></span>
+                    </div>
+                    <button class="nav-btn" id="authBtn" onclick="toggleAuthDropdown()">
+                        <i class="fas fa-user"></i>
+                        <span>Account</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="auth-dropdown" id="authDropdown">
+                        <a href="#" id="loginLink" onclick="openLoginModal()">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </a>
+                        <a href="#" id="signupLink" onclick="openSignupModal()">
+                            <i class="fas fa-user-plus"></i> Sign Up
+                        </a>
+                        <a href="#" id="logoutLink" onclick="logout()" style="display: none;">
+                            <i class="fas fa-sign-out-alt"></i> Logout
+                        </a>
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-sign-in-alt"></i> Login to Quick Safar
-                </button>
-                <div class="form-footer">
-                    <p>New to Quick Safar? <a href="#" class="switch-to-signup">Create an account</a></p>
-                </div>
-            </form>
-
-            <!-- Passenger Signup Form -->
-            <form id="passengerSignupForm" class="auth-form">
-                <div class="form-group">
-                    <label for="passengerName"><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" id="passengerName" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label for="passengerEmail"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="passengerEmail" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="passengerPhone"><i class="fas fa-phone"></i> Phone Number</label>
-                    <input type="tel" id="passengerPhone" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="passengerPassword"><i class="fas fa-lock"></i> Create Password</label>
-                    <input type="password" id="passengerPassword" placeholder="Create a strong password" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i> Join as Passenger
-                </button>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" class="switch-to-login">Login here</a></p>
-                </div>
-            </form>
-
-            <!-- Driver Signup Form -->
-            <form id="driverSignupForm" class="auth-form">
-                <div class="form-group">
-                    <label for="driverName"><i class="fas fa-user"></i> Full Name</label>
-                    <input type="text" id="driverName" placeholder="Enter your full name" required>
-                </div>
-                <div class="form-group">
-                    <label for="driverEmail"><i class="fas fa-envelope"></i> Email Address</label>
-                    <input type="email" id="driverEmail" placeholder="Enter your email" required>
-                </div>
-                <div class="form-group">
-                    <label for="driverPhone"><i class="fas fa-phone"></i> Phone Number</label>
-                    <input type="tel" id="driverPhone" placeholder="Enter your phone number" required>
-                </div>
-                <div class="form-group">
-                    <label for="vehicleNumber"><i class="fas fa-car"></i> Vehicle Number</label>
-                    <input type="text" id="vehicleNumber" placeholder="e.g., DL-01-AB-1234" required>
-                </div>
-                <div class="form-group">
-                    <label for="vehicleModel"><i class="fas fa-car-side"></i> Vehicle Model</label>
-                    <input type="text" id="vehicleModel" placeholder="e.g., Hyundai Creta" required>
-                </div>
-                <div class="form-group">
-                    <label for="driverPassword"><i class="fas fa-lock"></i> Create Password</label>
-                    <input type="password" id="driverPassword" placeholder="Create a strong password" required>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">
-                    <i class="fas fa-user-plus"></i> Join as Driver
-                </button>
-                <div class="form-footer">
-                    <p>Already have an account? <a href="#" class="switch-to-login">Login here</a></p>
-                </div>
-            </form>
+            </nav>
         </div>
-    </div>
+    </header>
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
-        <div class="container">
-            <div class="hero-content">
-                <div class="hero-text">
-                    <h2 class="hero-title">Your pick of rides at <span class="highlight">low prices</span></h2>
-                    <p class="hero-subtitle">Find affordable rides, share travel costs, and enjoy safe journeys with verified community members.</p>
-                    
-                    <!-- Search Form -->
-                    <div class="search-container">
-                        <div class="search-box">
-                            <div class="search-field">
-                                <i class="fas fa-map-marker-alt"></i>
-                                <input type="text" id="fromLocation" placeholder="Leaving from" autocomplete="off">
-                                <div class="location-suggestions" id="fromSuggestions"></div>
-                            </div>
-                            <div class="search-field">
-                                <i class="fas fa-flag-checkered"></i>
-                                <input type="text" id="toLocation" placeholder="Going to" autocomplete="off">
-                                <div class="location-suggestions" id="toSuggestions"></div>
-                            </div>
-                            <div class="search-field">
-                                <i class="fas fa-calendar"></i>
-                                <input type="date" id="travelDate" placeholder="Date">
-                            </div>
-                            <div class="search-field">
-                                <i class="fas fa-users"></i>
-                                <div class="passenger-select">
-                                    <button type="button" class="passenger-btn minus">-</button>
-                                    <span id="passengerCount">1</span> passenger
-                                    <button type="button" class="passenger-btn plus">+</button>
-                                </div>
-                            </div>
-                            <button id="searchRidesBtn" class="search-btn">
-                                <i class="fas fa-search"></i> Search Rides
-                            </button>
-                        </div>
-                        <div class="search-info">
-                            <p><i class="fas fa-info-circle"></i> Search across thousands of available rides</p>
-                        </div>
-                    </div>
+    <section class="hero-section">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1 class="hero-title">Your pick of rides at low prices</h1>
+            
+            <div class="search-box" id="mainSearchBox">
+                <div class="search-field">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <input type="text" id="heroFromLocation" placeholder="Leaving from">
                 </div>
-                <div class="hero-image">
-                    <img src="https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Car Ride">
+                
+                <div class="search-field">
+                    <i class="fas fa-location-dot"></i>
+                    <input type="text" id="heroToLocation" placeholder="Going to">
                 </div>
+                
+                <div class="search-field">
+                    <i class="fas fa-calendar"></i>
+                    <input type="date" id="heroTravelDate">
+                </div>
+                
+                <div class="search-field">
+                    <i class="fas fa-user"></i>
+                    <select id="heroPassengerCount">
+                        <option value="1">1 passenger</option>
+                        <option value="2">2 passengers</option>
+                        <option value="3">3 passengers</option>
+                        <option value="4">4 passengers</option>
+                        <option value="5">5 passengers</option>
+                        <option value="6">6 passengers</option>
+                        <option value="7">7 passengers</option>
+                        <option value="8">8 passengers</option>
+                    </select>
+                </div>
+                
+                <button class="search-btn" onclick="searchRidesFromHero()">
+                    <i class="fas fa-search"></i> Search
+                </button>
             </div>
         </div>
     </section>
 
     <!-- Features Section -->
-    <section class="features">
+    <section class="features-section">
         <div class="container">
-            <div class="section-header">
-                <h2>Why Choose Quick Safar?</h2>
-                <p>Experience the best ride-sharing platform with amazing benefits</p>
-            </div>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-rupee-sign"></i>
-                    </div>
-                    <h3>Prices like nowhere</h3>
-                    <p>Benefit from great-value shared costs on your carpool rides. Save up to 60% compared to taxis.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Ride with confidence</h3>
-                    <p>Feel secure, knowing you're riding with verified community members with complete background checks.</p>
-                </div>
-                <div class="feature-card">
-                    <div class="feature-icon">
-                        <i class="fas fa-mobile-alt"></i>
-                    </div>
-                    <h3>Scroll, click, tap and go!</h3>
-                    <p>Booking a ride has never been easier! Our simple app lets you book a ride close to you in minutes.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Driver Section -->
-    <section class="driver-section" id="offer-ride">
-        <div class="container">
-            <div class="driver-content">
-                <div class="driver-image">
-                    <img src="https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Car Driver">
-                </div>
-                <div class="driver-text">
-                    <h2>Share your ride. <span class="highlight">Cut your costs.</span></h2>
-                    <p>Carpool as a driver to turn your empty seats into lower travel costs. It's simple: publish your ride and get passengers to share your fuel and toll expenses.</p>
-                    <div class="driver-stats">
-                        <div class="stat">
-                            <h3>2,500+</h3>
-                            <p>Active Drivers</p>
-                        </div>
-                        <div class="stat">
-                            <h3>₹15 Cr+</h3>
-                            <p>Saved by Drivers</p>
-                        </div>
-                        <div class="stat">
-                            <h3>4.8★</h3>
-                            <p>Average Rating</p>
-                        </div>
-                    </div>
-                    <button id="offerRideBtn" class="btn btn-primary btn-large">
-                        <i class="fas fa-plus-circle"></i> Publish Your Ride
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Available Rides Section -->
-    <section class="rides-section" id="rides">
-        <div class="container">
-            <div class="section-header">
-                <h2 id="ridesTitle">Available Rides Near You</h2>
-                <p>Find the perfect ride for your journey</p>
+            <div class="feature-card">
+                <i class="fas fa-tag feature-icon"></i>
+                <h3>Unbeatable Prices</h3>
+                <p>Experience the most affordable rideshare options in town. Save money while traveling comfortably with verified drivers.</p>
             </div>
             
-            <!-- Rides Container -->
-            <div class="rides-container" id="availableRides">
-                <div class="rides-placeholder">
-                    <i class="fas fa-search"></i>
-                    <h3>Search for rides to see available options</h3>
-                    <p>Enter your journey details above to find matching rides</p>
-                </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-halved feature-icon"></i>
+                <h3>Travel with Confidence</h3>
+                <p>Your safety is our priority. All drivers are verified with complete profiles, ensuring secure and trustworthy journeys every time.</p>
             </div>
+            
+            <div class="feature-card">
+                <i class="fas fa-bolt feature-icon"></i>
+                <h3>Quick & Easy Booking</h3>
+                <p>Book your perfect ride in seconds! Our smart technology matches you with the best available rides near you instantly.</p>
+            </div>
+        </div>
+    </section>
 
-            <!-- Booking Form (Visible when logged in) -->
-            <div class="booking-section hidden" id="bookingSection">
-                <div class="section-header">
-                    <h2>Complete Your Booking</h2>
-                    <p>Fill in your details to confirm the ride</p>
-                </div>
-                <form id="bookingForm" class="booking-form">
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Share your ride. Cut your costs.</h2>
+            <p>Become a driver and transform your empty seats into extra income. It's simple: publish your ride and connect with passengers heading your way.</p>
+            <button class="cta-btn" onclick="openDriverSignup()">
+                <i class="fas fa-car"></i> Share your ride
+            </button>
+        </div>
+    </section>
+
+    <!-- Booking Section (Shows after login) -->
+    <section class="booking-section" id="bookingSection" style="display: none;">
+        <div class="container">
+            <div class="booking-container" id="passengerBooking" style="display: none;">
+                <h2><i class="fas fa-ticket-alt"></i> Find Your Perfect Ride</h2>
+                
+                <div class="booking-form">
                     <div class="form-row">
                         <div class="form-group">
-                            <label for="bookingName">Full Name</label>
-                            <input type="text" id="bookingName" placeholder="Enter your full name" required>
+                            <label><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
+                            <input type="text" id="bookingFrom" placeholder="Enter starting point">
                         </div>
+                        
                         <div class="form-group">
-                            <label for="bookingPhone">Phone Number</label>
-                            <input type="tel" id="bookingPhone" placeholder="Enter your phone number" required>
+                            <label><i class="fas fa-location-dot"></i> Destination</label>
+                            <input type="text" id="bookingTo" placeholder="Enter destination">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label for="specialRequests">Special Requests (Optional)</label>
-                        <textarea id="specialRequests" placeholder="Any special requirements or requests..."></textarea>
-                    </div>
-                    <div class="booking-summary">
-                        <h4>Booking Summary</h4>
-                        <div class="summary-details">
-                            <div class="summary-item">
-                                <span>Ride:</span>
-                                <span id="summaryRide"></span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Passengers:</span>
-                                <span id="summaryPassengers"></span>
-                            </div>
-                            <div class="summary-item">
-                                <span>Total Fare:</span>
-                                <span class="price" id="summaryFare"></span>
-                            </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Travel Date</label>
+                            <input type="date" id="bookingDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-users"></i> Passengers</label>
+                            <select id="bookingPassengers">
+                                <option value="1">1 passenger</option>
+                                <option value="2">2 passengers</option>
+                                <option value="3">3 passengers</option>
+                                <option value="4">4 passengers</option>
+                                <option value="5">5 passengers</option>
+                                <option value="6">6 passengers</option>
+                                <option value="7">7 passengers</option>
+                                <option value="8">8 passengers</option>
+                            </select>
                         </div>
                     </div>
-                    <button type="submit" class="btn btn-primary btn-block">
-                        <i class="fas fa-check-circle"></i> Confirm Booking
+                    
+                    <button class="submit-btn" onclick="searchAvailableRides()">
+                        <i class="fas fa-search"></i> Search Rides
                     </button>
-                </form>
-            </div>
-
-            <!-- Driver Dashboard (Visible when driver is logged in) -->
-            <div class="driver-dashboard hidden" id="driverDashboard">
-                <div class="section-header">
-                    <h2>Your Driver Dashboard</h2>
-                    <p>Manage your rides and earnings</p>
                 </div>
                 
-                <div class="dashboard-stats">
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-rupee-sign"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="totalEarnings">₹0</h3>
-                            <p>Total Earnings</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-calendar-check"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="completedRides">0</h3>
-                            <p>Completed Rides</p>
-                        </div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-icon">
-                            <i class="fas fa-star"></i>
-                        </div>
-                        <div class="stat-info">
-                            <h3 id="driverRating">0.0★</h3>
-                            <p>Your Rating</p>
-                        </div>
-                    </div>
+                <div class="results-section" id="ridesResults"></div>
+                
+                <div class="bookings-history">
+                    <h3>Your Bookings</h3>
+                    <div id="passengerBookingsList"></div>
                 </div>
+            </div>
 
-                <!-- Add Ride Form -->
-                <div class="add-ride-form">
-                    <h3>Publish a New Ride</h3>
-                    <form id="publishRideForm">
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="rideFrom">From</label>
-                                <input type="text" id="rideFrom" placeholder="Starting point" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="rideTo">To</label>
-                                <input type="text" id="rideTo" placeholder="Destination" required>
-                            </div>
+            <div class="booking-container" id="driverBooking" style="display: none;">
+                <h2><i class="fas fa-car-side"></i> Publish Your Ride</h2>
+                
+                <div class="booking-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-user"></i> Driver Name</label>
+                            <input type="text" id="driverName" placeholder="Your name">
                         </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="rideDate">Date</label>
-                                <input type="date" id="rideDate" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="rideTime">Time</label>
-                                <input type="time" id="rideTime" required>
-                            </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label for="availableSeats">Available Seats</label>
-                                <div class="seat-selector">
-                                    <button type="button" class="seat-btn minus">-</button>
-                                    <span id="seatCount">4</span> seats
-                                    <button type="button" class="seat-btn plus">+</button>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="farePerSeat">Fare per Seat (₹)</label>
-                                <input type="number" id="farePerSeat" min="50" max="5000" value="200" required>
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">
-                            <i class="fas fa-paper-plane"></i> Publish Ride
-                        </button>
-                    </form>
-                </div>
-
-                <!-- Your Published Rides -->
-                <div class="published-rides">
-                    <h3>Your Published Rides</h3>
-                    <div class="rides-list" id="publishedRides">
-                        <div class="empty-state">
-                            <i class="fas fa-car"></i>
-                            <p>No rides published yet. Publish your first ride above!</p>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-car"></i> Vehicle Number</label>
+                            <input type="text" id="vehicleNumber" placeholder="e.g., DL-1234">
                         </div>
                     </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-map-marker-alt"></i> Starting Point</label>
+                            <input type="text" id="driverFrom" placeholder="Departure location">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-location-dot"></i> Destination</label>
+                            <input type="text" id="driverTo" placeholder="Arrival location">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-calendar"></i> Travel Date</label>
+                            <input type="date" id="driverDate">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-clock"></i> Departure Time</label>
+                            <input type="time" id="departureTime">
+                        </div>
+                    </div>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label><i class="fas fa-chair"></i> Available Seats</label>
+                            <select id="availableSeats">
+                                <option value="1">1 seat</option>
+                                <option value="2">2 seats</option>
+                                <option value="3">3 seats</option>
+                                <option value="4" selected>4 seats</option>
+                                <option value="5">5 seats</option>
+                                <option value="6">6 seats</option>
+                                <option value="7">7 seats</option>
+                                <option value="8">8 seats</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label><i class="fas fa-rupee-sign"></i> Fare per Person</label>
+                            <input type="number" id="fareAmount" min="50" value="200" placeholder="Amount in ₹">
+                        </div>
+                    </div>
+                    
+                    <button class="submit-btn" onclick="publishRide()">
+                        <i class="fas fa-plus"></i> Publish Ride
+                    </button>
+                </div>
+                
+                <div class="driver-routes">
+                    <h3>Your Active Routes</h3>
+                    <div id="driverRoutesList"></div>
+                </div>
+                
+                <div class="driver-bookings">
+                    <h3>Passenger Bookings</h3>
+                    <div id="driverBookingsList"></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- How It Works Section -->
-    <section class="how-it-works" id="how-it-works">
-        <div class="container">
-            <div class="section-header">
-                <h2>How Quick Safar Works</h2>
-                <p>Three simple steps to your perfect ride</p>
-            </div>
-            <div class="steps-grid">
-                <div class="step">
-                    <div class="step-number">1</div>
-                    <div class="step-icon">
-                        <i class="fas fa-search"></i>
-                    </div>
-                    <h3>Search & Find</h3>
-                    <p>Enter your journey details and find available rides matching your route and schedule.</p>
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="loginEmail" required placeholder="Enter your email">
                 </div>
-                <div class="step">
-                    <div class="step-number">2</div>
-                    <div class="step-icon">
-                        <i class="fas fa-car"></i>
-                    </div>
-                    <h3>Book & Confirm</h3>
-                    <p>Select your preferred ride, review details, and confirm your booking instantly.</p>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" required placeholder="Enter your password">
                 </div>
-                <div class="step">
-                    <div class="step-number">3</div>
-                    <div class="step-icon">
-                        <i class="fas fa-road"></i>
-                    </div>
-                    <h3>Ride & Enjoy</h3>
-                    <p>Meet your driver, enjoy a comfortable ride, and share your travel costs.</p>
+                
+                <div class="form-group">
+                    <label>I am a</label>
+                    <select id="loginUserType" required>
+                        <option value="passenger">Passenger</option>
+                        <option value="driver">Driver</option>
+                    </select>
                 </div>
-            </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </button>
+            </form>
+            
+            <p class="modal-footer">
+                Don't have an account? <a href="#" onclick="switchToSignup()">Sign up here</a>
+            </p>
         </div>
-    </section>
+    </div>
 
-    <!-- Testimonials -->
-    <section class="testimonials">
-        <div class="container">
-            <div class="section-header">
-                <h2>What Our Community Says</h2>
-                <p>Join thousands of happy riders and drivers</p>
-            </div>
-            <div class="testimonial-grid">
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"Quick Safar helped me save 40% on my daily commute. The drivers are always punctual and professional."</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="author-info">
-                            <h4>Priya Sharma</h4>
-                            <p>Regular Passenger</p>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                            </div>
-                        </div>
-                    </div>
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('signupModal')">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+            
+            <form id="signupForm" onsubmit="handleSignup(event)">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="signupName" required placeholder="Enter your full name">
                 </div>
-                <div class="testimonial-card">
-                    <div class="testimonial-content">
-                        <p>"As a driver, I've earned extra income while making my daily commute. The platform is easy to use and safe."</p>
-                    </div>
-                    <div class="testimonial-author">
-                        <div class="author-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="author-info">
-                            <h4>Rajesh Kumar</h4>
-                            <p>Verified Driver</p>
-                            <div class="rating">
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star"></i>
-                                <i class="fas fa-star-half-alt"></i>
-                            </div>
-                        </div>
-                    </div>
+                
+                <div class="form-group">
+                    <label>Email Address</label>
+                    <input type="email" id="signupEmail" required placeholder="Enter your email">
                 </div>
-            </div>
+                
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6">
+                </div>
+                
+                <div class="form-group">
+                    <label>I want to</label>
+                    <select id="signupUserType" required>
+                        <option value="passenger">Book rides (Passenger)</option>
+                        <option value="driver">Offer rides (Driver)</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-user-plus"></i> Sign Up
+                </button>
+            </form>
+            
+            <p class="modal-footer">
+                Already have an account? <a href="#" onclick="switchToLogin()">Login here</a>
+            </p>
         </div>
-    </section>
+    </div>
 
     <!-- Footer -->
-    <footer class="footer" id="contact">
+    <footer class="footer">
         <div class="container">
-            <div class="footer-content">
-                <div class="footer-section">
-                    <div class="footer-logo">
-                        <div class="logo-icon">
-                            <i class="fas fa-car"></i>
-                        </div>
-                        <div class="logo-text">
-                            <h2>Quick Safar</h2>
-                            <p>Safe & Smart Rides</p>
-                        </div>
-                    </div>
-                    <p class="footer-description">Your trusted ride-sharing platform. Safe, affordable, and convenient rides for everyone.</p>
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Quick Safar</h3>
+                    <p>Your trusted carpooling partner for safe, affordable, and eco-friendly travel across India.</p>
                     <div class="social-links">
-                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
-                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
                 
-                <div class="footer-section">
-                    <h3>Quick Links</h3>
-                    <ul class="footer-links">
-                        <li><a href="#home"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="#how-it-works"><i class="fas fa-chevron-right"></i> How It Works</a></li>
-                        <li><a href="#rides"><i class="fas fa-chevron-right"></i> Find Rides</a></li>
-                        <li><a href="#offer-ride"><i class="fas fa-chevron-right"></i> Offer Ride</a></li>
-                        <li><a href="#contact"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">Safety</a></li>
+                        <li><a href="#">Blog</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-section">
-                    <h3>Support</h3>
-                    <ul class="footer-links">
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Help Center</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Safety Guidelines</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Terms & Conditions</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> Privacy Policy</a></li>
-                        <li><a href="#"><i class="fas fa-chevron-right"></i> FAQs</a></li>
+                <div class="footer-col">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Contact Us</a></li>
                     </ul>
                 </div>
                 
-                <div class="footer-section">
-                    <h3>Contact Info</h3>
-                    <ul class="contact-info">
-                        <li><i class="fas fa-phone"></i> +91 9876543210</li>
+                <div class="footer-col">
+                    <h4>Contact</h4>
+                    <ul>
+                        <li><i class="fas fa-phone"></i> +91 98765 43210</li>
                         <li><i class="fas fa-envelope"></i> support@quicksafar.com</li>
                         <li><i class="fas fa-map-marker-alt"></i> New Delhi, India</li>
-                        <li><i class="fas fa-clock"></i> 24/7 Support Available</li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 Quick Safar. All rights reserved. | Designed with <i class="fas fa-heart"></i> for smarter travel</p>
+                <p>&copy; 2025 Quick Safar. All rights reserved. Made with <i class="fas fa-heart"></i> in India</p>
             </div>
         </div>
     </footer>
