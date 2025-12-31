@@ -1,262 +1,107 @@
 // Data Storage
-let users = JSON.parse(localStorage.getItem('quickSafarUsers')) || [];
-let currentUser = JSON.parse(localStorage.getItem('quickSafarCurrentUser')) || null;
-let rides = JSON.parse(localStorage.getItem('quickSafarRides')) || [];
-let bookings = JSON.parse(localStorage.getItem('quickSafarBookings')) || [];
-let locationSuggestions = [];
+let users = JSON.parse(sessionStorage.getItem('users')) || [];
+let currentUser = JSON.parse(sessionStorage.getItem('currentUser')) || null;
+let drivers = JSON.parse(sessionStorage.getItem('drivers')) || [];
+let bookings = JSON.parse(sessionStorage.getItem('bookings')) || [];
 
-// DOM Elements
-const loginBtn = document.getElementById('loginBtn');
-const signupBtn = document.getElementById('signupBtn');
-const mobileLoginBtn = document.getElementById('mobileLoginBtn');
-const mobileSignupBtn = document.getElementById('mobileSignupBtn');
-const logoutBtn = document.getElementById('logoutBtn');
-const authModal = document.getElementById('authModal');
-const closeModal = document.querySelector('.close');
-const tabBtns = document.querySelectorAll('.tab-btn');
-const loginForm = document.getElementById('loginForm');
-const passengerSignupForm = document.getElementById('passengerSignupForm');
-const driverSignupForm = document.getElementById('driverSignupForm');
-const userProfile = document.getElementById('userProfile');
-const userName = document.getElementById('userName');
-const userType = document.getElementById('userType');
-const authButtons = document.querySelector('.auth-buttons');
-const searchRidesBtn = document.getElementById('searchRidesBtn');
-const fromLocation = document.getElementById('fromLocation');
-const toLocation = document.getElementById('toLocation');
-const travelDate = document.getElementById('travelDate');
-const passengerCount = document.getElementById('passengerCount');
-const availableRides = document.getElementById('availableRides');
-const bookingSection = document.getElementById('bookingSection');
-const bookingForm = document.getElementById('bookingForm');
-const driverDashboard = document.getElementById('driverDashboard');
-const publishRideForm = document.getElementById('publishRideForm');
-const publishedRides = document.getElementById('publishedRides');
-const offerRideBtn = document.getElementById('offerRideBtn');
-const mobileMenuBtn = document.querySelector('.mobile-menu-btn');
-const mobileMenu = document.querySelector('.mobile-menu');
-const ridesTitle = document.getElementById('ridesTitle');
-
-// Indian Cities for Auto-suggestions
-const indianCities = [
-    "Delhi", "Mumbai", "Bangalore", "Hyderabad", "Chennai", "Kolkata",
-    "Pune", "Ahmedabad", "Jaipur", "Lucknow", "Chandigarh", "Dehradun",
-    "Noida", "Gurgaon", "Faridabad", "Ghaziabad", "Meerut", "Agra",
-    "Varanasi", "Patna", "Ranchi", "Bhubaneswar", "Guwahati", "Shillong",
-    "Imphal", "Kohima", "Aizawl", "Itanagar", "Dispur", "Gangtok",
-    "Siliguri", "Darjeeling", "Kalimpong", "Kurseong", "Mirik"
-];
-
-// Initialize
+// Initialize on page load
 document.addEventListener('DOMContentLoaded', function() {
-    loadUserSession();
-    setupEventListeners();
-    setupLocationSuggestions();
-    loadDemoData();
+    initializePage();
+    createDemoData();
+    updateUIBasedOnLogin();
     
     // Set minimum date to today
     const today = new Date().toISOString().split('T')[0];
-    document.getElementById('travelDate').min = today;
-    document.getElementById('rideDate').min = today;
-    
-    // Load initial data
-    updateUIForUser();
-    loadAvailableRides();
-    loadDriverDashboard();
+    const dateInputs = document.querySelectorAll('input[type="date"]');
+    dateInputs.forEach(input => {
+        if (input) input.min = today;
+    });
 });
 
-// Setup Event Listeners
-function setupEventListeners() {
-    // Auth buttons
-    loginBtn?.addEventListener('click', () => showAuthModal('login'));
-    signupBtn?.addEventListener('click', () => showAuthModal('signup-passenger'));
-    mobileLoginBtn?.addEventListener('click', () => showAuthModal('login'));
-    mobileSignupBtn?.addEventListener('click', () => showAuthModal('signup-passenger'));
-    
-    logoutBtn?.addEventListener('click', handleLogout);
-    closeModal?.addEventListener('click', () => authModal.style.display = 'none');
-    
-    // Modal close on outside click
-    window.addEventListener('click', (e) => {
-        if (e.target === authModal) {
-            authModal.style.display = 'none';
-        }
-    });
-    
-    // Tab switching
-    tabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            const tab = this.getAttribute('data-tab');
-            switchTab(tab);
-        });
-    });
-    
-    // Switch between login and signup
-    document.querySelectorAll('.switch-to-signup').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAuthModal('signup-passenger');
-        });
-    });
-    
-    document.querySelectorAll('.switch-to-login').forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAuthModal('login');
-        });
-    });
-    
-    // Passenger count buttons
-    document.querySelectorAll('.passenger-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const isMinus = this.classList.contains('minus');
-            let count = parseInt(passengerCount.textContent);
-            count = isMinus ? Math.max(1, count - 1) : Math.min(8, count + 1);
-            passengerCount.textContent = count;
-        });
-    });
-    
-    // Search rides
-    searchRidesBtn?.addEventListener('click', handleSearchRides);
-    
-    // Offer ride button
-    offerRideBtn?.addEventListener('click', () => {
-        if (!currentUser) {
-            showAuthModal('signup-driver');
-        } else if (currentUser.type !== 'driver') {
-            alert('Please sign up as a driver to offer rides');
-            showAuthModal('signup-driver');
-        } else {
-            driverDashboard.classList.remove('hidden');
-            driverDashboard.scrollIntoView({ behavior: 'smooth' });
-        }
-    });
-    
-    // Publish ride form
-    publishRideForm?.addEventListener('submit', handlePublishRide);
-    
-    // Booking form
-    bookingForm?.addEventListener('submit', handleBooking);
-    
-    // Seat selection in driver dashboard
-    document.querySelectorAll('.seat-btn').forEach(btn => {
-        btn.addEventListener('click', function() {
-            const isMinus = this.classList.contains('minus');
-            const seatCount = document.getElementById('seatCount');
-            let count = parseInt(seatCount.textContent);
-            count = isMinus ? Math.max(1, count - 1) : Math.min(8, count + 1);
-            seatCount.textContent = count;
-        });
-    });
-    
-    // Mobile menu
-    mobileMenuBtn?.addEventListener('click', () => {
-        mobileMenu.style.display = mobileMenu.style.display === 'block' ? 'none' : 'block';
-    });
-    
-    // Close mobile menu when clicking outside
-    document.addEventListener('click', (e) => {
-        if (!mobileMenuBtn.contains(e.target) && !mobileMenu.contains(e.target)) {
-            mobileMenu.style.display = 'none';
-        }
-    });
-    
-    // Login form submission
-    loginForm?.addEventListener('submit', handleLogin);
-    
-    // Passenger signup form submission
-    passengerSignupForm?.addEventListener('submit', handlePassengerSignup);
-    
-    // Driver signup form submission
-    driverSignupForm?.addEventListener('submit', handleDriverSignup);
-}
-
-// Setup Location Suggestions
-function setupLocationSuggestions() {
-    const fromInput = document.getElementById('fromLocation');
-    const toInput = document.getElementById('toLocation');
-    const fromSuggestions = document.getElementById('fromSuggestions');
-    const toSuggestions = document.getElementById('toSuggestions');
-    
-    [fromInput, toInput].forEach((input, index) => {
-        input.addEventListener('input', function() {
-            const suggestions = index === 0 ? fromSuggestions : toSuggestions;
-            const value = this.value.toLowerCase();
-            
-            if (value.length < 2) {
-                suggestions.style.display = 'none';
-                return;
-            }
-            
-            const filtered = indianCities.filter(city => 
-                city.toLowerCase().includes(value)
-            );
-            
-            if (filtered.length > 0) {
-                suggestions.innerHTML = filtered.map(city => `
-                    <div class="location-suggestion" data-value="${city}">${city}</div>
-                `).join('');
-                suggestions.style.display = 'block';
-            } else {
-                suggestions.style.display = 'none';
-            }
-        });
-        
-        input.addEventListener('blur', function() {
-            setTimeout(() => {
-                const suggestions = index === 0 ? fromSuggestions : toSuggestions;
-                suggestions.style.display = 'none';
-            }, 200);
-        });
-    });
-    
-    // Handle suggestion selection
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('location-suggestion')) {
-            const value = e.target.getAttribute('data-value');
-            const inputId = e.target.closest('.location-suggestions').id === 'fromSuggestions' ? 'fromLocation' : 'toLocation';
-            document.getElementById(inputId).value = value;
-            document.getElementById(inputId === 'fromLocation' ? 'fromSuggestions' : 'toSuggestions').style.display = 'none';
-        }
-    });
-}
-
-// Show Auth Modal
-function showAuthModal(tab) {
-    authModal.style.display = 'flex';
-    switchTab(tab);
-}
-
-// Switch Tab in Modal
-function switchTab(tab) {
-    // Update tab buttons
-    tabBtns.forEach(btn => {
-        if (btn.getAttribute('data-tab') === tab) {
-            btn.classList.add('active');
-        } else {
-            btn.classList.remove('active');
-        }
-    });
-    
-    // Update forms
-    document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
-    
-    if (tab === 'login') {
-        loginForm.classList.add('active');
-    } else if (tab === 'signup-passenger') {
-        passengerSignupForm.classList.add('active');
-    } else if (tab === 'signup-driver') {
-        driverSignupForm.classList.add('active');
+// Initialize page
+function initializePage() {
+    if (currentUser) {
+        showBookingSection();
+        loadUserBookings();
     }
 }
 
+// Toggle auth dropdown
+function toggleAuthDropdown() {
+    const dropdown = document.getElementById('authDropdown');
+    dropdown.classList.toggle('active');
+}
+
+// Close dropdown when clicking outside
+document.addEventListener('click', function(e) {
+    const dropdown = document.getElementById('authDropdown');
+    const authBtn = document.getElementById('authBtn');
+    if (!authBtn.contains(e.target) && !dropdown.contains(e.target)) {
+        dropdown.classList.remove('active');
+    }
+});
+
+// Update UI based on login status
+function updateUIBasedOnLogin() {
+    const userInfo = document.getElementById('userInfo');
+    const loginLink = document.getElementById('loginLink');
+    const signupLink = document.getElementById('signupLink');
+    const logoutLink = document.getElementById('logoutLink');
+    const userName = document.getElementById('userName');
+    const userType = document.getElementById('userType');
+    
+    if (currentUser) {
+        userInfo.style.display = 'flex';
+        userName.textContent = currentUser.name;
+        userType.textContent = currentUser.type.charAt(0).toUpperCase() + currentUser.type.slice(1);
+        loginLink.style.display = 'none';
+        signupLink.style.display = 'none';
+        logoutLink.style.display = 'block';
+    } else {
+        userInfo.style.display = 'none';
+        loginLink.style.display = 'block';
+        signupLink.style.display = 'block';
+        logoutLink.style.display = 'none';
+    }
+}
+
+// Modal functions
+function openLoginModal() {
+    document.getElementById('loginModal').classList.add('active');
+    document.getElementById('authDropdown').classList.remove('active');
+}
+
+function openSignupModal() {
+    document.getElementById('signupModal').classList.add('active');
+    document.getElementById('authDropdown').classList.remove('active');
+}
+
+function openDriverSignup() {
+    document.getElementById('signupModal').classList.add('active');
+    document.getElementById('signupUserType').value = 'driver';
+}
+
+function closeModal(modalId) {
+    document.getElementById(modalId).classList.remove('active');
+}
+
+function switchToSignup() {
+    closeModal('loginModal');
+    openSignupModal();
+}
+
+function switchToLogin() {
+    closeModal('signupModal');
+    openLoginModal();
+}
+
 // Handle Login
-function handleLogin(e) {
-    e.preventDefault();
+function handleLogin(event) {
+    event.preventDefault();
     
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
-    const userType = document.querySelector('input[name="userType"]:checked').value;
+    const userType = document.getElementById('loginUserType').value;
     
     const user = users.find(u => 
         u.email === email && 
@@ -266,25 +111,25 @@ function handleLogin(e) {
     
     if (user) {
         currentUser = user;
-        localStorage.setItem('quickSafarCurrentUser', JSON.stringify(currentUser));
-        authModal.style.display = 'none';
-        updateUIForUser();
-        loadAvailableRides();
-        alert(`Welcome back, ${user.name}!`);
-        loginForm.reset();
+        sessionStorage.setItem('currentUser', JSON.stringify(currentUser));
+        closeModal('loginModal');
+        updateUIBasedOnLogin();
+        showBookingSection();
+        alert('Login successful! Welcome back, ' + currentUser.name);
+        document.getElementById('loginForm').reset();
     } else {
-        alert('Invalid credentials or user type! Please check and try again.');
+        alert('Invalid credentials or user type. Please try again.');
     }
 }
 
-// Handle Passenger Signup
-function handlePassengerSignup(e) {
-    e.preventDefault();
+// Handle Signup
+function handleSignup(event) {
+    event.preventDefault();
     
-    const name = document.getElementById('passengerName').value;
-    const email = document.getElementById('passengerEmail').value;
-    const phone = document.getElementById('passengerPhone').value;
-    const password = document.getElementById('passengerPassword').value;
+    const name = document.getElementById('signupName').value;
+    const email = document.getElementById('signupEmail').value;
+    const password = document.getElementById('signupPassword').value;
+    const userType = document.getElementById('signupUserType').value;
     
     if (users.find(u => u.email === email)) {
         alert('Email already registered! Please login instead.');
@@ -295,558 +140,546 @@ function handlePassengerSignup(e) {
         id: Date.now().toString(),
         name: name,
         email: email,
-        phone: phone,
         password: password,
-        type: 'passenger',
-        rating: 5.0,
-        bookings: 0
+        type: userType
     };
     
     users.push(newUser);
-    localStorage.setItem('quickSafarUsers', JSON.stringify(users));
+    sessionStorage.setItem('users', JSON.stringify(users));
     
-    currentUser = newUser;
-    localStorage.setItem('quickSafarCurrentUser', JSON.stringify(currentUser));
-    
-    authModal.style.display = 'none';
-    updateUIForUser();
-    alert(`Welcome to Quick Safar, ${name}! Your account has been created successfully.`);
-    passengerSignupForm.reset();
+    alert('Account created successfully! Please login to continue.');
+    document.getElementById('signupForm').reset();
+    closeModal('signupModal');
+    openLoginModal();
 }
 
-// Handle Driver Signup
-function handleDriverSignup(e) {
-    e.preventDefault();
-    
-    const name = document.getElementById('driverName').value;
-    const email = document.getElementById('driverEmail').value;
-    const phone = document.getElementById('driverPhone').value;
-    const vehicleNumber = document.getElementById('vehicleNumber').value;
-    const vehicleModel = document.getElementById('vehicleModel').value;
-    const password = document.getElementById('driverPassword').value;
-    
-    if (users.find(u => u.email === email)) {
-        alert('Email already registered! Please login instead.');
-        return;
-    }
-    
-    const newUser = {
-        id: Date.now().toString(),
-        name: name,
-        email: email,
-        phone: phone,
-        vehicleNumber: vehicleNumber,
-        vehicleModel: vehicleModel,
-        password: password,
-        type: 'driver',
-        rating: 5.0,
-        earnings: 0,
-        completedRides: 0
-    };
-    
-    users.push(newUser);
-    localStorage.setItem('quickSafarUsers', JSON.stringify(users));
-    
-    currentUser = newUser;
-    localStorage.setItem('quickSafarCurrentUser', JSON.stringify(currentUser));
-    
-    authModal.style.display = 'none';
-    updateUIForUser();
-    loadDriverDashboard();
-    alert(`Welcome to Quick Safar Driver Program, ${name}! Your driver account has been created successfully.`);
-    driverSignupForm.reset();
-}
-
-// Handle Logout
-function handleLogout() {
+// Logout
+function logout() {
     if (confirm('Are you sure you want to logout?')) {
         currentUser = null;
-        localStorage.removeItem('quickSafarCurrentUser');
-        updateUIForUser();
-        loadAvailableRides();
+        sessionStorage.removeItem('currentUser');
+        updateUIBasedOnLogin();
+        document.getElementById('bookingSection').style.display = 'none';
         alert('Logged out successfully!');
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 }
 
-// Update UI based on user login status
-function updateUIForUser() {
+// Show booking section based on user type
+function showBookingSection() {
+    const bookingSection = document.getElementById('bookingSection');
+    const passengerBooking = document.getElementById('passengerBooking');
+    const driverBooking = document.getElementById('driverBooking');
+    
     if (currentUser) {
-        // Update user profile display
-        userName.textContent = currentUser.name;
-        userType.textContent = currentUser.type === 'driver' ? 'Driver' : 'Passenger';
+        bookingSection.style.display = 'block';
         
-        // Show user profile, hide auth buttons
-        userProfile.classList.remove('hidden');
-        authButtons.classList.add('hidden');
-        if (mobileMenu) mobileMenu.style.display = 'none';
-        
-        // Update UI based on user type
-        if (currentUser.type === 'driver') {
-            driverDashboard.classList.remove('hidden');
-            bookingSection.classList.add('hidden');
-            loadDriverDashboard();
-        } else {
-            driverDashboard.classList.add('hidden');
+        if (currentUser.type === 'passenger') {
+            passengerBooking.style.display = 'block';
+            driverBooking.style.display = 'none';
+            loadUserBookings();
+        } else if (currentUser.type === 'driver') {
+            driverBooking.style.display = 'block';
+            passengerBooking.style.display = 'none';
+            loadDriverRoutes();
+            loadDriverBookings();
         }
-    } else {
-        // Hide user profile, show auth buttons
-        userProfile.classList.add('hidden');
-        authButtons.classList.remove('hidden');
-        driverDashboard.classList.add('hidden');
-        bookingSection.classList.add('hidden');
+        
+        // Scroll to booking section
+        setTimeout(() => {
+            bookingSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }, 300);
     }
 }
 
-// Handle Search Rides
-function handleSearchRides() {
-    const from = fromLocation.value.trim();
-    const to = toLocation.value.trim();
-    const date = travelDate.value;
-    const passengers = parseInt(passengerCount.textContent);
+// Search rides from hero section
+function searchRidesFromHero() {
+    const from = document.getElementById('heroFromLocation').value;
+    const to = document.getElementById('heroToLocation').value;
+    const date = document.getElementById('heroTravelDate').value;
+    const passengers = document.getElementById('heroPassengerCount').value;
     
     if (!from || !to || !date) {
-        alert('Please fill in all search fields: From, To, and Date');
+        alert('Please fill all search fields');
         return;
     }
     
     if (!currentUser) {
-        showAuthModal('login');
-        alert('Please login to search for rides');
+        alert('Please login to search and book rides');
+        openLoginModal();
         return;
     }
     
-    // Update title
-    ridesTitle.textContent = `Available Rides from ${from} to ${to}`;
+    if (currentUser.type !== 'passenger') {
+        alert('Only passengers can search for rides. Please login with a passenger account.');
+        return;
+    }
     
-    // Filter rides
-    const matchingRides = rides.filter(ride => 
-        ride.from.toLowerCase().includes(from.toLowerCase()) &&
-        ride.to.toLowerCase().includes(to.toLowerCase()) &&
-        ride.date === date &&
-        ride.availableSeats >= passengers &&
-        ride.status === 'active' &&
-        ride.driverId !== currentUser.id // Don't show driver their own rides
+    // Fill the booking form
+    document.getElementById('bookingFrom').value = from;
+    document.getElementById('bookingTo').value = to;
+    document.getElementById('bookingDate').value = date;
+    document.getElementById('bookingPassengers').value = passengers;
+    
+    // Show booking section and search
+    showBookingSection();
+    setTimeout(() => {
+        searchAvailableRides();
+    }, 500);
+}
+
+// Search available rides
+function searchAvailableRides() {
+    if (!currentUser) {
+        alert('Please login to search rides');
+        openLoginModal();
+        return;
+    }
+    
+    const from = document.getElementById('bookingFrom').value;
+    const to = document.getElementById('bookingTo').value;
+    const date = document.getElementById('bookingDate').value;
+    const passengers = parseInt(document.getElementById('bookingPassengers').value);
+    
+    if (!from || !to || !date) {
+        alert('Please fill all search fields');
+        return;
+    }
+    
+    const matchedRides = drivers.filter(driver => 
+        driver.from.toLowerCase().includes(from.toLowerCase()) &&
+        driver.to.toLowerCase().includes(to.toLowerCase()) &&
+        driver.date === date &&
+        driver.availableSeats >= passengers &&
+        driver.status === 'active'
     );
     
-    displayAvailableRides(matchingRides, passengers);
+    displaySearchResults(matchedRides, passengers);
 }
 
-// Display Available Rides
-function displayAvailableRides(ridesList, requiredSeats) {
-    if (ridesList.length === 0) {
-        availableRides.innerHTML = `
-            <div class="rides-placeholder">
-                <i class="fas fa-car"></i>
-                <h3>No rides found matching your criteria</h3>
-                <p>Try adjusting your search or check back later for new rides</p>
+// Display search results
+function displaySearchResults(rides, passengers) {
+    const resultsSection = document.getElementById('ridesResults');
+    
+    if (rides.length === 0) {
+        resultsSection.innerHTML = `
+            <div class="ride-card">
+                <p style="text-align: center; color: #666; padding: 20px;">
+                    <i class="fas fa-search" style="font-size: 48px; color: #ccc; margin-bottom: 15px;"></i><br>
+                    No rides found matching your search criteria.<br>
+                    Try adjusting your search or check back later.
+                </p>
             </div>
         `;
         return;
     }
     
-    availableRides.innerHTML = ridesList.map(ride => {
-        const driver = users.find(u => u.id === ride.driverId);
-        const totalFare = ride.farePerSeat * requiredSeats;
-        
-        return `
-            <div class="ride-card" data-ride-id="${ride.id}">
+    resultsSection.innerHTML = `
+        <h3 style="margin-bottom: 20px; color: #00838f;">
+            <i class="fas fa-car"></i> Available Rides (${rides.length})
+        </h3>
+        ${rides.map(ride => `
+            <div class="ride-card">
                 <div class="ride-header">
-                    <div class="ride-driver">
-                        <div class="driver-avatar">
-                            <i class="fas fa-user-circle"></i>
-                        </div>
-                        <div class="driver-info">
-                            <h4>${driver?.name || 'Driver'}</h4>
-                            <p class="vehicle-info">${driver?.vehicleModel || 'Car'} • ${driver?.vehicleNumber || 'XX-XX-XXXX'}</p>
-                        </div>
-                    </div>
-                    <div class="ride-price">₹${totalFare}</div>
+                    <h4>${ride.name} - ${ride.vehicle}</h4>
+                    <span class="status-badge">
+                        <i class="fas fa-circle" style="font-size: 8px;"></i> Available
+                    </span>
                 </div>
-                
-                <div class="ride-details">
-                    <div class="detail-item">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <strong>From</strong>
-                            <p>${ride.from}</p>
-                        </div>
+                <div class="ride-info">
+                    <div class="info-item">
+                        <i class="fas fa-route"></i>
+                        <span><strong>${ride.from}</strong> → <strong>${ride.to}</strong></span>
                     </div>
-                    <div class="detail-item">
-                        <i class="fas fa-flag-checkered"></i>
-                        <div>
-                            <strong>To</strong>
-                            <p>${ride.to}</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
+                    <div class="info-item">
                         <i class="fas fa-calendar"></i>
-                        <div>
-                            <strong>Date</strong>
-                            <p>${formatDate(ride.date)}</p>
-                        </div>
+                        <span>${formatDate(ride.date)}</span>
                     </div>
-                    <div class="detail-item">
+                    <div class="info-item">
                         <i class="fas fa-clock"></i>
-                        <div>
-                            <strong>Time</strong>
-                            <p>${ride.time}</p>
-                        </div>
+                        <span>${ride.time}</span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-chair"></i>
+                        <span>${ride.availableSeats} seats available</span>
                     </div>
                 </div>
-                
-                <div class="ride-footer">
-                    <div class="seats-available">
-                        <i class="fas fa-chair"></i> ${ride.availableSeats} seats available
-                    </div>
-                    <button class="book-ride-btn" onclick="showBookingForm('${ride.id}', ${requiredSeats})">
-                        <i class="fas fa-check-circle"></i> Book Now (₹${ride.farePerSeat}/seat)
-                    </button>
+                <div class="price-info">
+                    ₹${ride.fare} per person | Total: ₹${ride.fare * passengers} for ${passengers} passenger${passengers > 1 ? 's' : ''}
                 </div>
+                <button class="book-now-btn" onclick="bookRide('${ride.id}', ${passengers})">
+                    <i class="fas fa-check-circle"></i> Book Now
+                </button>
             </div>
-        `;
-    }).join('');
+        `).join('')}
+    `;
 }
 
-// Show Booking Form
-function showBookingForm(rideId, seats) {
-    if (!currentUser || currentUser.type !== 'passenger') {
-        alert('Please login as a passenger to book rides');
-        showAuthModal('login');
+// Book a ride
+function bookRide(rideId, passengers) {
+    if (!currentUser) {
+        alert('Please login to book a ride');
+        openLoginModal();
         return;
     }
     
-    const ride = rides.find(r => r.id === rideId);
-    if (!ride || ride.availableSeats < seats) {
-        alert('Sorry, this ride is no longer available');
+    const ride = drivers.find(d => d.id === rideId);
+    
+    if (!ride || ride.availableSeats < passengers) {
+        alert('Sorry, this ride is no longer available or doesn\'t have enough seats.');
+        searchAvailableRides();
         return;
     }
     
-    const totalFare = ride.farePerSeat * seats;
+    const totalFare = ride.fare * passengers;
     
-    // Update booking form
-    document.getElementById('bookingName').value = currentUser.name;
-    document.getElementById('bookingPhone').value = currentUser.phone || '';
-    document.getElementById('summaryRide').textContent = `${ride.from} to ${ride.to}`;
-    document.getElementById('summaryPassengers').textContent = `${seats} passenger${seats > 1 ? 's' : ''}`;
-    document.getElementById('summaryFare').textContent = `₹${totalFare}`;
-    
-    // Store ride info for booking
-    bookingForm.dataset.rideId = rideId;
-    bookingForm.dataset.seats = seats;
-    
-    // Show booking form
-    bookingSection.classList.remove('hidden');
-    bookingSection.scrollIntoView({ behavior: 'smooth' });
-}
-
-// Handle Booking
-function handleBooking(e) {
-    e.preventDefault();
-    
-    const rideId = e.target.dataset.rideId;
-    const seats = parseInt(e.target.dataset.seats);
-    const ride = rides.find(r => r.id === rideId);
-    
-    if (!ride || ride.availableSeats < seats) {
-        alert('Sorry, seats are no longer available');
-        return;
-    }
-    
-    const booking = {
-        id: Date.now().toString(),
-        passengerId: currentUser.id,
-        passengerName: currentUser.name,
-        passengerPhone: document.getElementById('bookingPhone').value,
-        driverId: ride.driverId,
-        rideId: rideId,
-        from: ride.from,
-        to: ride.to,
-        date: ride.date,
-        time: ride.time,
-        seats: seats,
-        farePerSeat: ride.farePerSeat,
-        totalFare: ride.farePerSeat * seats,
-        status: 'confirmed',
-        bookingDate: new Date().toISOString(),
-        specialRequests: document.getElementById('specialRequests').value
-    };
-    
-    // Update ride availability
-    ride.availableSeats -= seats;
-    if (ride.availableSeats === 0) {
-        ride.status = 'full';
-    }
-    
-    // Update driver earnings
-    const driver = users.find(u => u.id === ride.driverId);
-    if (driver) {
-        driver.earnings = (driver.earnings || 0) + booking.totalFare;
-        driver.completedRides = (driver.completedRides || 0) + 1;
-    }
-    
-    // Save booking
-    bookings.push(booking);
-    saveData();
-    
-    alert(`Booking confirmed! Your ride from ${ride.from} to ${ride.to} is booked. Total fare: ₹${booking.totalFare}`);
-    
-    // Reset and reload
-    bookingForm.reset();
-    bookingSection.classList.add('hidden');
-    loadAvailableRides();
-    if (driver && currentUser.id === driver.id) {
-        loadDriverDashboard();
+    if (confirm(`Confirm booking?\n\nRide: ${ride.from} → ${ride.to}\nDriver: ${ride.name}\nSeats: ${passengers}\nTotal Fare: ₹${totalFare}`)) {
+        const booking = {
+            id: Date.now().toString(),
+            passengerId: currentUser.id,
+            passengerName: currentUser.name,
+            driverId: ride.driverId,
+            rideId: ride.id,
+            driverName: ride.name,
+            vehicle: ride.vehicle,
+            from: ride.from,
+            to: ride.to,
+            date: ride.date,
+            time: ride.time,
+            seats: passengers,
+            fare: totalFare,
+            status: 'confirmed',
+            bookingDate: new Date().toISOString()
+        };
+        
+        bookings.push(booking);
+        ride.availableSeats -= passengers;
+        
+        if (ride.availableSeats === 0) {
+            ride.status = 'full';
+        }
+        
+        saveData();
+        
+        alert(`🎉 Booking Confirmed!\n\nBooking ID: ${booking.id}\nTotal Amount: ₹${totalFare}\n\nThank you for choosing Quick Safar!`);
+        
+        loadUserBookings();
+        searchAvailableRides();
     }
 }
 
-// Handle Publish Ride
-function handlePublishRide(e) {
-    e.preventDefault();
-    
-    if (!currentUser || currentUser.type !== 'driver') {
-        alert('Please login as a driver to publish rides');
-        showAuthModal('signup-driver');
+// Publish ride (for drivers)
+function publishRide() {
+    if (!currentUser) {
+        alert('Please login to publish a ride');
+        openLoginModal();
         return;
     }
     
-    const from = document.getElementById('rideFrom').value.trim();
-    const to = document.getElementById('rideTo').value.trim();
-    const date = document.getElementById('rideDate').value;
-    const time = document.getElementById('rideTime').value;
-    const seats = parseInt(document.getElementById('seatCount').textContent);
-    const farePerSeat = parseInt(document.getElementById('farePerSeat').value);
+    if (currentUser.type !== 'driver') {
+        alert('Only drivers can publish rides');
+        return;
+    }
     
-    if (!from || !to || !date || !time) {
-        alert('Please fill in all required fields');
+    const name = document.getElementById('driverName').value;
+    const vehicle = document.getElementById('vehicleNumber').value;
+    const from = document.getElementById('driverFrom').value;
+    const to = document.getElementById('driverTo').value;
+    const date = document.getElementById('driverDate').value;
+    const time = document.getElementById('departureTime').value;
+    const seats = parseInt(document.getElementById('availableSeats').value);
+    const fare = parseInt(document.getElementById('fareAmount').value);
+    
+    if (!name || !vehicle || !from || !to || !date || !time || !fare) {
+        alert('Please fill all fields');
         return;
     }
     
     const newRide = {
         id: Date.now().toString(),
         driverId: currentUser.id,
+        name: name,
+        vehicle: vehicle,
         from: from,
         to: to,
         date: date,
         time: time,
         availableSeats: seats,
         totalSeats: seats,
-        farePerSeat: farePerSeat,
-        status: 'active',
-        createdAt: new Date().toISOString()
+        fare: fare,
+        status: 'active'
     };
     
-    rides.push(newRide);
+    drivers.push(newRide);
     saveData();
     
-    alert('Ride published successfully!');
-    publishRideForm.reset();
-    document.getElementById('seatCount').textContent = '4';
-    loadDriverDashboard();
+    alert('🚗 Ride published successfully!\n\nYour ride is now visible to passengers.');
+    
+    // Clear form
+    document.getElementById('driverName').value = '';
+    document.getElementById('vehicleNumber').value = '';
+    document.getElementById('driverFrom').value = '';
+    document.getElementById('driverTo').value = '';
+    document.getElementById('driverDate').value = '';
+    document.getElementById('departureTime').value = '';
+    document.getElementById('availableSeats').value = '4';
+    document.getElementById('fareAmount').value = '200';
+    
+    loadDriverRoutes();
 }
 
-// Load Driver Dashboard
-function loadDriverDashboard() {
+// Load user bookings (for passengers)
+function loadUserBookings() {
+    if (!currentUser || currentUser.type !== 'passenger') return;
+    
+    const userBookings = bookings
+        .filter(b => b.passengerId === currentUser.id)
+        .sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
+    
+    const listElement = document.getElementById('passengerBookingsList');
+    
+    if (userBookings.length === 0) {
+        listElement.innerHTML = `
+            <p style="text-align: center; color: #999; padding: 30px;">
+                <i class="fas fa-inbox" style="font-size: 48px; margin-bottom: 15px;"></i><br>
+                No bookings yet. Search and book your first ride!
+            </p>
+        `;
+        return;
+    }
+    
+    listElement.innerHTML = userBookings.map(booking => `
+        <div class="ride-card">
+            <div class="ride-header">
+                <h4>${booking.from} → ${booking.to}</h4>
+                <span class="status-badge" style="background: #c8e6c9; color: #2e7d32;">
+                    ${booking.status}
+                </span>
+            </div>
+            <div class="ride-info">
+                <div class="info-item">
+                    <i class="fas fa-user"></i>
+                    <span>Driver: ${booking.driverName}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-car"></i>
+                    <span>${booking.vehicle}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>${formatDate(booking.date)}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>${booking.time}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-chair"></i>
+                    <span>${booking.seats} seat${booking.seats > 1 ? 's' : ''}</span>
+                </div>
+            </div>
+            <div class="price-info" style="font-size: 20px;">
+                Total Paid: ₹${booking.fare}
+            </div>
+            <p style="color: #999; font-size: 13px; margin-top: 10px;">
+                <i class="fas fa-info-circle"></i> Booked on ${formatDateTime(booking.bookingDate)}
+            </p>
+        </div>
+    `).join('');
+}
+
+// Load driver routes
+function loadDriverRoutes() {
     if (!currentUser || currentUser.type !== 'driver') return;
     
-    // Update stats
-    document.getElementById('totalEarnings').textContent = `₹${currentUser.earnings || 0}`;
-    document.getElementById('completedRides').textContent = currentUser.completedRides || 0;
-    document.getElementById('driverRating').textContent = `${currentUser.rating || 5.0}★`;
+    const driverRoutes = drivers
+        .filter(d => d.driverId === currentUser.id && d.status === 'active')
+        .sort((a, b) => new Date(a.date + ' ' + a.time) - new Date(b.date + ' ' + b.time));
     
-    // Load driver's published rides
-    const driverRides = rides.filter(ride => ride.driverId === currentUser.id);
+    const listElement = document.getElementById('driverRoutesList');
     
-    if (driverRides.length === 0) {
-        publishedRides.innerHTML = `
-            <div class="empty-state">
-                <i class="fas fa-car"></i>
-                <p>No rides published yet. Publish your first ride above!</p>
-            </div>
+    if (driverRoutes.length === 0) {
+        listElement.innerHTML = `
+            <p style="text-align: center; color: #999; padding: 30px;">
+                <i class="fas fa-road" style="font-size: 48px; margin-bottom: 15px;"></i><br>
+                No active routes. Publish your first ride above!
+            </p>
         `;
-    } else {
-        publishedRides.innerHTML = driverRides.map(ride => `
-            <div class="ride-card">
-                <div class="ride-header">
-                    <div>
-                        <h4>${ride.from} → ${ride.to}</h4>
-                        <p class="vehicle-info">${formatDate(ride.date)} at ${ride.time}</p>
-                    </div>
-                    <div class="ride-price">₹${ride.farePerSeat}/seat</div>
+        return;
+    }
+    
+    listElement.innerHTML = driverRoutes.map(route => `
+        <div class="ride-card">
+            <div class="ride-header">
+                <h4>${route.from} → ${route.to}</h4>
+                <span class="status-badge" style="background: ${route.availableSeats > 0 ? '#c8e6c9' : '#ffccbc'}; color: ${route.availableSeats > 0 ? '#2e7d32' : '#d84315'};">
+                    ${route.availableSeats} / ${route.totalSeats} seats
+                </span>
+            </div>
+            <div class="ride-info">
+                <div class="info-item">
+                    <i class="fas fa-car"></i>
+                    <span>${route.vehicle}</span>
                 </div>
-                
-                <div class="ride-details">
-                    <div class="detail-item">
-                        <i class="fas fa-chair"></i>
-                        <div>
-                            <strong>Seats</strong>
-                            <p>${ride.availableSeats}/${ride.totalSeats} available</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-rupee-sign"></i>
-                        <div>
-                            <strong>Earnings Potential</strong>
-                            <p>₹${ride.farePerSeat * (ride.totalSeats - ride.availableSeats)}</p>
-                        </div>
-                    </div>
-                    <div class="detail-item">
-                        <i class="fas fa-calendar"></i>
-                        <div>
-                            <strong>Status</strong>
-                            <p class="${ride.status === 'active' ? 'seats-available' : 'text-light'}">${ride.status}</p>
-                        </div>
-                    </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>${formatDate(route.date)}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>${route.time}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-rupee-sign"></i>
+                    <span>₹${route.fare} per seat</span>
                 </div>
             </div>
-        `).join('');
-    }
-}
-
-// Load Available Rides for Display
-function loadAvailableRides() {
-    const today = new Date().toISOString().split('T')[0];
-    const upcomingRides = rides.filter(ride => 
-        ride.date >= today && 
-        ride.status === 'active' &&
-        (!currentUser || ride.driverId !== currentUser.id)
-    ).slice(0, 5); // Show only 5 upcoming rides
-    
-    if (upcomingRides.length > 0) {
-        displayAvailableRides(upcomingRides, 1);
-    } else {
-        availableRides.innerHTML = `
-            <div class="rides-placeholder">
-                <i class="fas fa-search"></i>
-                <h3>Search for rides to see available options</h3>
-                <p>Enter your journey details above to find matching rides</p>
+            <div class="price-info" style="font-size: 18px;">
+                Potential Earnings: ₹${route.fare * (route.totalSeats - route.availableSeats)}
             </div>
+        </div>
+    `).join('');
+}
+
+// Load driver bookings
+function loadDriverBookings() {
+    if (!currentUser || currentUser.type !== 'driver') return;
+    
+    const driverRouteIds = drivers
+        .filter(d => d.driverId === currentUser.id)
+        .map(d => d.id);
+    
+    const driverBookings = bookings
+        .filter(b => driverRouteIds.includes(b.rideId))
+        .sort((a, b) => new Date(b.bookingDate) - new Date(a.bookingDate));
+    
+    const listElement = document.getElementById('driverBookingsList');
+    
+    if (driverBookings.length === 0) {
+        listElement.innerHTML = `
+            <p style="text-align: center; color: #999; padding: 30px;">
+                <i class="fas fa-users" style="font-size: 48px; margin-bottom: 15px;"></i><br>
+                No passenger bookings yet. Wait for passengers to book your rides!
+            </p>
         `;
+        return;
     }
+    
+    listElement.innerHTML = driverBookings.map(booking => `
+        <div class="ride-card">
+            <div class="ride-header">
+                <h4>${booking.from} → ${booking.to}</h4>
+                <span class="status-badge" style="background: #c8e6c9; color: #2e7d32;">
+                    ${booking.status}
+                </span>
+            </div>
+            <div class="ride-info">
+                <div class="info-item">
+                    <i class="fas fa-user"></i>
+                    <span>Passenger: ${booking.passengerName}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-calendar"></i>
+                    <span>${formatDate(booking.date)}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-clock"></i>
+                    <span>${booking.time}</span>
+                </div>
+                <div class="info-item">
+                    <i class="fas fa-chair"></i>
+                    <span>${booking.seats} seat${booking.seats > 1 ? 's' : ''}</span>
+                </div>
+            </div>
+            <div class="price-info" style="font-size: 20px; color: #00897b;">
+                Your Earnings: ₹${booking.fare}
+            </div>
+            <p style="color: #999; font-size: 13px; margin-top: 10px;">
+                <i class="fas fa-info-circle"></i> Booked on ${formatDateTime(booking.bookingDate)}
+            </p>
+        </div>
+    `).join('');
 }
 
-// Load Demo Data
-function loadDemoData() {
-    if (localStorage.getItem('quickSafarDemoLoaded')) return;
-    
-    // Demo drivers
-    const demoDrivers = [
-        {
-            id: 'driver1',
-            name: 'Rajesh Kumar',
-            email: 'rajesh@example.com',
-            phone: '9876543210',
-            password: 'password123',
-            type: 'driver',
-            vehicleNumber: 'DL-01-AB-1234',
-            vehicleModel: 'Hyundai Creta',
-            rating: 4.8,
-            earnings: 12500,
-            completedRides: 24
-        },
-        {
-            id: 'driver2',
-            name: 'Priya Sharma',
-            email: 'priya@example.com',
-            phone: '9876543211',
-            password: 'password123',
-            type: 'driver',
-            vehicleNumber: 'UP-16-CD-5678',
-            vehicleModel: 'Maruti Suzuki Swift',
-            rating: 4.9,
-            earnings: 8900,
-            completedRides: 18
-        }
-    ];
-    
-    // Demo passengers
-    const demoPassengers = [
-        {
-            id: 'passenger1',
-            name: 'Amit Singh',
-            email: 'amit@example.com',
-            phone: '9876543212',
-            password: 'password123',
-            type: 'passenger',
-            rating: 5.0,
-            bookings: 12
-        }
-    ];
-    
-    // Demo rides
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    
-    const demoRides = [
-        {
-            id: 'ride1',
-            driverId: 'driver1',
-            from: 'Delhi',
-            to: 'Noida',
-            date: tomorrow.toISOString().split('T')[0],
-            time: '08:30',
-            availableSeats: 3,
-            totalSeats: 4,
-            farePerSeat: 150,
-            status: 'active',
-            createdAt: new Date().toISOString()
-        },
-        {
-            id: 'ride2',
-            driverId: 'driver2',
-            from: 'Delhi',
-            to: 'Gurgaon',
-            date: tomorrow.toISOString().split('T')[0],
-            time: '09:15',
-            availableSeats: 2,
-            totalSeats: 4,
-            farePerSeat: 200,
-            status: 'active',
-            createdAt: new Date().toISOString()
-        }
-    ];
-    
-    // Save demo data
-    users = [...demoDrivers, ...demoPassengers];
-    rides = demoRides;
-    
-    localStorage.setItem('quickSafarUsers', JSON.stringify(users));
-    localStorage.setItem('quickSafarRides', JSON.stringify(rides));
-    localStorage.setItem('quickSafarDemoLoaded', 'true');
-}
-
-// Save Data
+// Save data to session storage
 function saveData() {
-    localStorage.setItem('quickSafarUsers', JSON.stringify(users));
-    localStorage.setItem('quickSafarRides', JSON.stringify(rides));
-    localStorage.setItem('quickSafarBookings', JSON.stringify(bookings));
-    if (currentUser) {
-        localStorage.setItem('quickSafarCurrentUser', JSON.stringify(currentUser));
-    }
+    sessionStorage.setItem('drivers', JSON.stringify(drivers));
+    sessionStorage.setItem('bookings', JSON.stringify(bookings));
 }
 
-// Load User Session
-function loadUserSession() {
-    if (currentUser) {
-        // Refresh user data from storage
-        const storedUser = users.find(u => u.id === currentUser.id);
-        if (storedUser) {
-            currentUser = storedUser;
-            localStorage.setItem('quickSafarCurrentUser', JSON.stringify(currentUser));
-        }
-    }
+// Format date
+function formatDate(dateStr) {
+    const date = new Date(dateStr);
+    const options = { day: 'numeric', month: 'short', year: 'numeric' };
+    return date.toLocaleDateString('en-IN', options);
 }
 
-// Utility Functions
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-IN', {
-        weekday: 'short',
+// Format date and time
+function formatDateTime(dateStr) {
+    const date = new Date(dateStr);
+    const options = { 
+        day: 'numeric', 
+        month: 'short', 
         year: 'numeric',
-        month: 'short',
-        day: 'numeric'
-    });
+        hour: '2-digit',
+        minute: '2-digit'
+    };
+    return date.toLocaleString('en-IN', options);
 }
 
-// Make functions available globally
-window.showBookingForm = showBookingForm;
+// Create demo data
+function createDemoData() {
+    if (!sessionStorage.getItem('demoDataCreated')) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        const tomorrowStr = tomorrow.toISOString().split('T')[0];
+        
+        drivers = [
+            {
+                id: 'demo1',
+                driverId: 'demo-driver-1',
+                name: 'Rajesh Kumar',
+                vehicle: 'DL-01-AB-1234',
+                from: 'Delhi',
+                to: 'Noida',
+                date: tomorrowStr,
+                time: '08:00',
+                availableSeats: 3,
+                totalSeats: 4,
+                fare: 150,
+                status: 'active'
+            },
+            {
+                id: 'demo2',
+                driverId: 'demo-driver-2',
+                name: 'Amit Singh',
+                vehicle: 'UP-16-XY-5678',
+                from: 'Delhi',
+                to: 'Gurgaon',
+                date: tomorrowStr,
+                time: '09:30',
+                availableSeats: 4,
+                totalSeats: 6,
+                fare: 200,
+                status: 'active'
+            },
+            {
+                id: 'demo3',
+                driverId: 'demo-driver-3',
+                name: 'Priya Sharma',
+                vehicle: 'DL-03-CD-9012',
+                from: 'Gurgaon',
+                to: 'Delhi',
+                date: tomorrowStr,
+                time: '18:00',
+                availableSeats: 2,
+                totalSeats: 4,
+                fare: 180,
+                status: 'active'
+            }
+        ];
+        
+        saveData();
+        sessionStorage.setItem('demoDataCreated', 'true');
+    }
+}
