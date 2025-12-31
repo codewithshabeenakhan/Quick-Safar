@@ -14,7 +14,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const today = new Date().toISOString().split('T')[0];
     const dateInputs = document.querySelectorAll('input[type="date"]');
     dateInputs.forEach(input => {
-        if (input) input.min = today;
+        if (input) {
+            input.min = today;
+            // Set placeholder text
+            if (input.value === '') {
+                input.setAttribute('placeholder', 'dd-mm-yyyy');
+            }
+        }
     });
     
     // Add animation effects
@@ -724,7 +730,7 @@ function loadDriverBookings() {
                     <span>${booking.seats} seat${booking.seats > 1 ? 's' : ''}</span>
                 </div>
             </div>
-            <div class="price-info" style="font-size: 20px; color: #ff9800;">
+            <div class="price-info" style="font-size: 20px; color: #2196f3;">
                 Your Earnings: ₹${booking.fare}
             </div>
             <p style="color: #999; font-size: 13px; margin-top: 10px;">
