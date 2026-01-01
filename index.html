@@ -67,48 +67,93 @@
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- UPDATED HERO SECTION -->
     <section class="hero-section" id="home">
-        <div class="hero-banner">
-            <img src="https://i.postimg.cc/L4QVgBqm/quick-safar-banner.png" alt="Quick Safar - Share Rides"
-                class="banner-img">
+        <div class="hero-bg-elements">
+            <div class="car-animation">
+                <i class="fas fa-car" style="font-size: 100px; color: rgba(255,255,255,0.1);"></i>
+            </div>
         </div>
-        <div class="hero-content">
-            <h1 class="hero-title">Your pick of rides at low prices</h1>
-
-            <div class="search-box" id="mainSearchBox">
-                <div class="search-field">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <input type="text" id="heroFromLocation" placeholder="Leaving from">
+        
+        <div class="container hero-container">
+            <div class="hero-content">
+                <div class="hero-text">
+                    <h1 class="hero-title">
+                        Travel Smarter,<br>
+                        <span>Save Bigger!</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Join India's most trusted carpooling community. Share rides, save money, and travel together safely.
+                    </p>
+                    
+                    <div class="hero-stats">
+                        <div class="stat-item">
+                            <span class="stat-number">50K+</span>
+                            <span class="stat-label">Happy Travelers</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">1M+</span>
+                            <span class="stat-label">Rides Shared</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-number">₹100Cr+</span>
+                            <span class="stat-label">Saved</span>
+                        </div>
+                    </div>
                 </div>
+                
+                <div class="hero-search">
+                    <h3 style="color: #333; margin-bottom: 20px; text-align: center;">
+                        <i class="fas fa-search"></i> Find Your Perfect Ride
+                    </h3>
+                    
+                    <div class="search-box" id="mainSearchBox">
+                        <div class="search-field">
+                            <label for="heroFromLocation">
+                                <i class="fas fa-map-marker-alt"></i> From
+                            </label>
+                            <input type="text" id="heroFromLocation" placeholder="Enter pickup location">
+                        </div>
 
-                <div class="search-field">
-                    <i class="fas fa-location-dot"></i>
-                    <input type="text" id="heroToLocation" placeholder="Going to">
+                        <div class="search-field">
+                            <label for="heroToLocation">
+                                <i class="fas fa-location-dot"></i> To
+                            </label>
+                            <input type="text" id="heroToLocation" placeholder="Enter destination">
+                        </div>
+
+                        <div class="search-field">
+                            <label for="heroTravelDate">
+                                <i class="fas fa-calendar"></i> Date
+                            </label>
+                            <input type="date" id="heroTravelDate">
+                        </div>
+
+                        <div class="search-field">
+                            <label for="heroPassengerCount">
+                                <i class="fas fa-user"></i> Passengers
+                            </label>
+                            <select id="heroPassengerCount">
+                                <option value="1">1 passenger</option>
+                                <option value="2">2 passengers</option>
+                                <option value="3">3 passengers</option>
+                                <option value="4" selected>4 passengers</option>
+                                <option value="5">5 passengers</option>
+                                <option value="6">6 passengers</option>
+                                <option value="7">7 passengers</option>
+                                <option value="8">8 passengers</option>
+                            </select>
+                        </div>
+
+                        <button class="search-btn" onclick="searchRidesFromHero()">
+                            <i class="fas fa-search"></i> Search Available Rides
+                        </button>
+                    </div>
+                    
+                    <p class="hero-bottom-text">
+                        <i class="fas fa-shield-alt"></i> 100% Verified Drivers & Riders
+                    </p>
                 </div>
-
-                <div class="search-field">
-                    <i class="fas fa-calendar"></i>
-                    <input type="date" id="heroTravelDate" placeholder="dd-mm-yyyy">
-                </div>
-
-                <div class="search-field">
-                    <i class="fas fa-user"></i>
-                    <select id="heroPassengerCount">
-                        <option value="1">1 passenger</option>
-                        <option value="2">2 passengers</option>
-                        <option value="3">3 passengers</option>
-                        <option value="4">4 passengers</option>
-                        <option value="5">5 passengers</option>
-                        <option value="6">6 passengers</option>
-                        <option value="7">7 passengers</option>
-                        <option value="8">8 passengers</option>
-                    </select>
-                </div>
-
-                <button class="search-btn" onclick="searchRidesFromHero()">
-                    <i class="fas fa-search"></i> Search
-                </button>
             </div>
         </div>
     </section>
@@ -196,7 +241,7 @@
         </div>
     </section>
 
-    <!-- Safety Section -->
+    <!-- UPDATED SAFETY SECTION -->
     <section class="safety-section">
         <div class="container">
             <div class="safety-content">
@@ -205,10 +250,8 @@
                         class="safety-img">
                 </div>
                 <div class="safety-text">
-                    <h2>Help us keep you safe from scams</h2>
-                    <p>At Quick Safar, we're working hard to make our platform as secure as it can be. But when scams do
-                        happen, we want you to know exactly how to avoid and report them. Follow our tips to help us
-                        keep you safe.</p>
+                    <h2>Your Safety is Our Priority</h2>
+                    <p>At Quick Safar, we're working hard to make our platform as secure as it can be. We provide tools and guidelines to help you make safe choices while carpooling.</p>
 
                     <div class="safety-features">
                         <div class="safety-item">
@@ -234,8 +277,55 @@
                         </div>
                     </div>
 
+                    <!-- IMPORTANT DISCLAIMER -->
+                    <div class="safety-disclaimer">
+                        <h4><i class="fas fa-exclamation-triangle"></i> Important Safety Notice</h4>
+                        <p><strong>User Responsibility Disclaimer:</strong></p>
+                        <p>While we strive to provide a safe platform, we are NOT responsible for:</p>
+                        <ul>
+                            <li>Any fraudulent activity or scams conducted by users</li>
+                            <li>Personal belongings lost during the ride</li>
+                            <li>User-to-user disputes or conflicts</li>
+                            <li>Accidents or incidents during the journey</li>
+                        </ul>
+                        <p><strong>It is YOUR responsibility to:</strong></p>
+                        <ul>
+                            <li>Check driver ratings and reviews before booking</li>
+                            <li>Verify the driver's identity before starting the journey</li>
+                            <li>Report any suspicious activity immediately</li>
+                            <li>Make safe and informed decisions</li>
+                        </ul>
+                        <p style="font-style: italic; margin-top: 15px;">
+                            <i class="fas fa-info-circle"></i> We provide a platform for connection but cannot guarantee individual behavior.
+                        </p>
+                    </div>
+
+                    <!-- Rating System Info -->
+                    <div class="rating-system">
+                        <h4><i class="fas fa-star-half-alt"></i> Our Rating System</h4>
+                        <p>We encourage all users to rate their experience after each ride. This helps maintain trust and safety in our community.</p>
+                        
+                        <div class="rating-steps">
+                            <div class="rating-step">
+                                <i class="fas fa-star"></i>
+                                <h5>Rate After Ride</h5>
+                                <p>Rate your driver and co-passengers after journey completion</p>
+                            </div>
+                            <div class="rating-step">
+                                <i class="fas fa-check-circle"></i>
+                                <h5>Check Ratings</h5>
+                                <p>Always check driver ratings and reviews before booking</p>
+                            </div>
+                            <div class="rating-step">
+                                <i class="fas fa-flag"></i>
+                                <h5>Report Issues</h5>
+                                <p>Report any safety concerns or issues immediately</p>
+                            </div>
+                        </div>
+                    </div>
+
                     <a href="#" onclick="redirectToEmail()" class="learn-more-btn">
-                        <i class="fas fa-info-circle"></i> Learn more
+                        <i class="fas fa-info-circle"></i> Learn Safety Guidelines
                     </a>
                 </div>
             </div>
@@ -301,9 +391,9 @@
                         cab. The driver was professional, the car was clean, and the journey was comfortable. Highly
                         recommend Quick Safar for intercity travel!"</p>
                     <div class="testimonial-author">
-                        <img src="https://i.pravatar.cc/150?img=28" alt="Riya ">
+                        <img src="https://i.pravatar.cc/150?img=28" alt="Rohit Verma">
                         <div>
-                            <h4>Riya</h4>
+                            <h4>Rohit Verma</h4>
                             <p>Business Consultant, Delhi</p>
                         </div>
                     </div>
@@ -576,6 +666,9 @@
             <div class="footer-bottom">
                 <p>&copy; 2025 Quick Safar - Har Safar, Apna Sa. All rights reserved. | Made with <i
                         class="fas fa-heart"></i> in India</p>
+                <p style="font-size: 12px; margin-top: 10px; opacity: 0.7;">
+                    Quick Safar is a platform for connecting drivers and passengers. We are not responsible for user-to-user interactions.
+                </p>
             </div>
         </div>
     </footer>
