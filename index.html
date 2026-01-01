@@ -1,27 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quick Safar - Har Safar, Apna Sa</title>
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
     <!-- Top Header -->
     <header class="top-header">
         <div class="header-container">
+            <!-- Logo Section -->
             <div class="logo-section">
-                <img src="https://i.postimg.cc/0jW3Zg8T/quick-safar-logo-new.png" alt="Quick Safar Logo" class="logo-img">
+                <img src="images/logo.png" alt="QuickSafar Logo" class="logo-img">
             </div>
-            
+
             <nav class="nav-menu">
                 <a href="#home" class="nav-link active">Home</a>
                 <a href="#about" class="nav-link">About</a>
                 <a href="#services" class="nav-link">Services</a>
                 <a href="#contact" class="nav-link">Contact</a>
-                
+
                 <!-- Updated Contact Menu -->
                 <div class="contact-menu">
                     <button class="menu-btn" onclick="toggleContactMenu()">
@@ -36,7 +40,7 @@
                         </a>
                     </div>
                 </div>
-                
+
                 <div class="user-section" id="userSection">
                     <div class="user-info" id="userInfo" style="display: none;">
                         <i class="fas fa-user-circle"></i>
@@ -66,27 +70,28 @@
     <!-- Hero Section -->
     <section class="hero-section" id="home">
         <div class="hero-banner">
-            <img src="https://i.postimg.cc/L4QVgBqm/quick-safar-banner.png" alt="Quick Safar - Share Rides" class="banner-img">
+            <img src="https://i.postimg.cc/L4QVgBqm/quick-safar-banner.png" alt="Quick Safar - Share Rides"
+                class="banner-img">
         </div>
         <div class="hero-content">
             <h1 class="hero-title">Your pick of rides at low prices</h1>
-            
+
             <div class="search-box" id="mainSearchBox">
                 <div class="search-field">
                     <i class="fas fa-map-marker-alt"></i>
                     <input type="text" id="heroFromLocation" placeholder="Leaving from">
                 </div>
-                
+
                 <div class="search-field">
                     <i class="fas fa-location-dot"></i>
                     <input type="text" id="heroToLocation" placeholder="Going to">
                 </div>
-                
+
                 <div class="search-field">
                     <i class="fas fa-calendar"></i>
                     <input type="date" id="heroTravelDate" placeholder="dd-mm-yyyy">
                 </div>
-                
+
                 <div class="search-field">
                     <i class="fas fa-user"></i>
                     <select id="heroPassengerCount">
@@ -100,7 +105,7 @@
                         <option value="8">8 passengers</option>
                     </select>
                 </div>
-                
+
                 <button class="search-btn" onclick="searchRidesFromHero()">
                     <i class="fas fa-search"></i> Search
                 </button>
@@ -113,24 +118,27 @@
         <div class="container">
             <h2 class="section-title">Why Choose Quick Safar</h2>
             <p class="section-subtitle">Experience the best carpooling in India</p>
-            
+
             <div class="features-container">
                 <div class="feature-card">
                     <i class="fas fa-tag feature-icon"></i>
                     <h3>Unbeatable Prices</h3>
-                    <p>Experience the most affordable carpooling in India. Travel smart, save big! Our transparent pricing ensures you get the best value for every journey.</p>
+                    <p>Experience the most affordable carpooling in India. Travel smart, save big! Our transparent
+                        pricing ensures you get the best value for every journey.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-shield-halved feature-icon"></i>
                     <h3>Travel with Confidence</h3>
-                    <p>Your safety is our top priority. Every driver is thoroughly verified with government IDs and complete profiles. Travel worry-free with trusted companions.</p>
+                    <p>Your safety is our top priority. Every driver is thoroughly verified with government IDs and
+                        complete profiles. Travel worry-free with trusted companions.</p>
                 </div>
-                
+
                 <div class="feature-card">
                     <i class="fas fa-bolt feature-icon"></i>
                     <h3>Quick & Easy Booking</h3>
-                    <p>Find your perfect ride in seconds! Our smart matching technology connects you with rides heading your way. Book instantly with just a few taps.</p>
+                    <p>Find your perfect ride in seconds! Our smart matching technology connects you with rides heading
+                        your way. Book instantly with just a few taps.</p>
                 </div>
             </div>
         </div>
@@ -141,7 +149,7 @@
         <div class="container">
             <h2 class="section-title">How Quick Safar Works</h2>
             <p class="section-subtitle">Simple, Safe, and Smart - Your Journey in 3 Easy Steps</p>
-            
+
             <div class="steps-container">
                 <div class="step-card">
                     <div class="step-number">1</div>
@@ -149,25 +157,28 @@
                         <i class="fas fa-search"></i>
                     </div>
                     <h3>Search Your Route</h3>
-                    <p>Enter your starting point and destination. Choose your travel date and number of passengers. Our smart system will show you all available rides instantly.</p>
+                    <p>Enter your starting point and destination. Choose your travel date and number of passengers. Our
+                        smart system will show you all available rides instantly.</p>
                 </div>
-                
+
                 <div class="step-card">
                     <div class="step-number">2</div>
                     <div class="step-icon">
                         <i class="fas fa-user-check"></i>
                     </div>
                     <h3>Choose & Book</h3>
-                    <p>Browse through verified driver profiles. Check reviews, ratings, and vehicle details. Select the ride that suits you best and book with confidence.</p>
+                    <p>Browse through verified driver profiles. Check reviews, ratings, and vehicle details. Select the
+                        ride that suits you best and book with confidence.</p>
                 </div>
-                
+
                 <div class="step-card">
                     <div class="step-number">3</div>
                     <div class="step-icon">
                         <i class="fas fa-car"></i>
                     </div>
                     <h3>Travel Together</h3>
-                    <p>Meet your driver at the agreed pickup point. Enjoy a comfortable journey with fellow travelers. Rate your experience and help our community grow!</p>
+                    <p>Meet your driver at the agreed pickup point. Enjoy a comfortable journey with fellow travelers.
+                        Rate your experience and help our community grow!</p>
                 </div>
             </div>
         </div>
@@ -177,7 +188,8 @@
     <section class="cta-section">
         <div class="cta-content">
             <h2>Share your ride. Cut your costs.</h2>
-            <p>Turn your empty seats into earnings! Whether you're commuting daily or planning a long trip, share your journey and split fuel costs. Join thousands of drivers already saving money.</p>
+            <p>Turn your empty seats into earnings! Whether you're commuting daily or planning a long trip, share your
+                journey and split fuel costs. Join thousands of drivers already saving money.</p>
             <button class="cta-btn" onclick="openDriverSignup()">
                 <i class="fas fa-car"></i> Start Sharing Rides
             </button>
@@ -189,12 +201,15 @@
         <div class="container">
             <div class="safety-content">
                 <div class="safety-image">
-                    <img src="https://i.postimg.cc/qRK8B7Zn/safety-illustration.png" alt="Help us keep you safe" class="safety-img">
+                    <img src="https://i.postimg.cc/qRK8B7Zn/safety-illustration.png" alt="Help us keep you safe"
+                        class="safety-img">
                 </div>
                 <div class="safety-text">
                     <h2>Help us keep you safe from scams</h2>
-                    <p>At Quick Safar, we're working hard to make our platform as secure as it can be. But when scams do happen, we want you to know exactly how to avoid and report them. Follow our tips to help us keep you safe.</p>
-                    
+                    <p>At Quick Safar, we're working hard to make our platform as secure as it can be. But when scams do
+                        happen, we want you to know exactly how to avoid and report them. Follow our tips to help us
+                        keep you safe.</p>
+
                     <div class="safety-features">
                         <div class="safety-item">
                             <i class="fas fa-shield-alt"></i>
@@ -218,7 +233,7 @@
                             </div>
                         </div>
                     </div>
-                    
+
                     <a href="#" onclick="redirectToEmail()" class="learn-more-btn">
                         <i class="fas fa-info-circle"></i> Learn more
                     </a>
@@ -232,7 +247,7 @@
         <div class="container">
             <h2 class="section-title">What Our Riders Say</h2>
             <p class="section-subtitle">Real experiences from real travelers</p>
-            
+
             <div class="testimonials-container">
                 <div class="testimonial-card">
                     <div class="stars">
@@ -242,7 +257,9 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"Quick Safar has changed my daily commute! I save almost ₹5,000 every month by sharing rides with verified co-passengers. The booking process is super easy and drivers are always punctual."</p>
+                    <p class="testimonial-text">"Quick Safar has changed my daily commute! I save almost ₹5,000 every
+                        month by sharing rides with verified co-passengers. The booking process is super easy and
+                        drivers are always punctual."</p>
                     <div class="testimonial-author">
                         <img src="https://i.pravatar.cc/150?img=12" alt="Nabeel Khan">
                         <div>
@@ -251,7 +268,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
@@ -260,7 +277,9 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star"></i>
                     </div>
-                    <p class="testimonial-text">"As a frequent traveler, safety is my biggest concern. Quick Safar's verified profiles and rating system give me peace of mind. I've made some wonderful travel companions and the journey is always pleasant!"</p>
+                    <p class="testimonial-text">"As a frequent traveler, safety is my biggest concern. Quick Safar's
+                        verified profiles and rating system give me peace of mind. I've made some wonderful travel
+                        companions and the journey is always pleasant!"</p>
                     <div class="testimonial-author">
                         <img src="https://i.pravatar.cc/150?img=45" alt="Shabeena Khan">
                         <div>
@@ -269,7 +288,7 @@
                         </div>
                     </div>
                 </div>
-                
+
                 <div class="testimonial-card">
                     <div class="stars">
                         <i class="fas fa-star"></i>
@@ -278,11 +297,13 @@
                         <i class="fas fa-star"></i>
                         <i class="fas fa-star-half-alt"></i>
                     </div>
-                    <p class="testimonial-text">"Excellent service! Traveled from Delhi to Jaipur at half the cost of a cab. The driver was professional, the car was clean, and the journey was comfortable. Highly recommend Quick Safar for intercity travel!"</p>
+                    <p class="testimonial-text">"Excellent service! Traveled from Delhi to Jaipur at half the cost of a
+                        cab. The driver was professional, the car was clean, and the journey was comfortable. Highly
+                        recommend Quick Safar for intercity travel!"</p>
                     <div class="testimonial-author">
-                        <img src="https://i.pravatar.cc/150?img=28" alt="Rohit Verma">
+                        <img src="https://i.pravatar.cc/150?img=28" alt="Riya ">
                         <div>
-                            <h4>Rohit Verma</h4>
+                            <h4>Riya</h4>
                             <p>Business Consultant, Delhi</p>
                         </div>
                     </div>
@@ -296,26 +317,26 @@
         <div class="container">
             <div class="booking-container" id="passengerBooking" style="display: none;">
                 <h2><i class="fas fa-ticket-alt"></i> Find Your Perfect Ride</h2>
-                
+
                 <div class="booking-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-map-marker-alt"></i> Pickup Location</label>
                             <input type="text" id="bookingFrom" placeholder="Enter starting point">
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-location-dot"></i> Destination</label>
                             <input type="text" id="bookingTo" placeholder="Enter destination">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-calendar"></i> Travel Date</label>
                             <input type="date" id="bookingDate">
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-users"></i> Passengers</label>
                             <select id="bookingPassengers">
@@ -330,14 +351,14 @@
                             </select>
                         </div>
                     </div>
-                    
+
                     <button class="submit-btn" onclick="searchAvailableRides()">
                         <i class="fas fa-search"></i> Search Rides
                     </button>
                 </div>
-                
+
                 <div class="results-section" id="ridesResults"></div>
-                
+
                 <div class="bookings-history">
                     <h3>Your Bookings</h3>
                     <div id="passengerBookingsList"></div>
@@ -346,44 +367,44 @@
 
             <div class="booking-container" id="driverBooking" style="display: none;">
                 <h2><i class="fas fa-car-side"></i> Publish Your Ride</h2>
-                
+
                 <div class="booking-form">
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-user"></i> Driver Name</label>
                             <input type="text" id="driverName" placeholder="Your name">
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-car"></i> Vehicle Number</label>
                             <input type="text" id="vehicleNumber" placeholder="e.g., DL-1234">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-map-marker-alt"></i> Starting Point</label>
                             <input type="text" id="driverFrom" placeholder="Departure location">
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-location-dot"></i> Destination</label>
                             <input type="text" id="driverTo" placeholder="Arrival location">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-calendar"></i> Travel Date</label>
                             <input type="date" id="driverDate">
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-clock"></i> Departure Time</label>
                             <input type="time" id="departureTime">
                         </div>
                     </div>
-                    
+
                     <div class="form-row">
                         <div class="form-group">
                             <label><i class="fas fa-chair"></i> Available Seats</label>
@@ -398,23 +419,23 @@
                                 <option value="8">8 seats</option>
                             </select>
                         </div>
-                        
+
                         <div class="form-group">
                             <label><i class="fas fa-rupee-sign"></i> Fare per Person</label>
                             <input type="number" id="fareAmount" min="50" value="200" placeholder="Amount in ₹">
                         </div>
                     </div>
-                    
+
                     <button class="submit-btn" onclick="publishRide()">
                         <i class="fas fa-plus"></i> Publish Ride
                     </button>
                 </div>
-                
+
                 <div class="driver-routes">
                     <h3>Your Active Routes</h3>
                     <div id="driverRoutesList"></div>
                 </div>
-                
+
                 <div class="driver-bookings">
                     <h3>Passenger Bookings</h3>
                     <div id="driverBookingsList"></div>
@@ -428,18 +449,18 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('loginModal')">&times;</span>
             <h2><i class="fas fa-sign-in-alt"></i> Welcome Back</h2>
-            
+
             <form id="loginForm" onsubmit="handleLogin(event)">
                 <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" id="loginEmail" required placeholder="Enter your email">
                 </div>
-                
+
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="loginPassword" required placeholder="Enter your password">
                 </div>
-                
+
                 <div class="form-group">
                     <label>I am a</label>
                     <select id="loginUserType" required>
@@ -447,12 +468,12 @@
                         <option value="driver">Driver</option>
                     </select>
                 </div>
-                
+
                 <button type="submit" class="submit-btn">
                     <i class="fas fa-sign-in-alt"></i> Login
                 </button>
             </form>
-            
+
             <p class="modal-footer">
                 Don't have an account? <a href="#" onclick="switchToSignup()">Sign up here</a>
             </p>
@@ -464,23 +485,23 @@
         <div class="modal-content">
             <span class="close-modal" onclick="closeModal('signupModal')">&times;</span>
             <h2><i class="fas fa-user-plus"></i> Create Account</h2>
-            
+
             <form id="signupForm" onsubmit="handleSignup(event)">
                 <div class="form-group">
                     <label>Full Name</label>
                     <input type="text" id="signupName" required placeholder="Enter your full name">
                 </div>
-                
+
                 <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" id="signupEmail" required placeholder="Enter your email">
                 </div>
-                
+
                 <div class="form-group">
                     <label>Password</label>
                     <input type="password" id="signupPassword" required placeholder="Create a password" minlength="6">
                 </div>
-                
+
                 <div class="form-group">
                     <label>I want to</label>
                     <select id="signupUserType" required>
@@ -488,12 +509,12 @@
                         <option value="driver">Offer rides (Driver)</option>
                     </select>
                 </div>
-                
+
                 <button type="submit" class="submit-btn">
                     <i class="fas fa-user-plus"></i> Sign Up
                 </button>
             </form>
-            
+
             <p class="modal-footer">
                 Already have an account? <a href="#" onclick="switchToLogin()">Login here</a>
             </p>
@@ -507,7 +528,8 @@
                 <div class="footer-col">
                     <h3>Quick Safar</h3>
                     <p class="tagline">Har Safar, Apna Sa</p>
-                    <p>Your trusted carpooling partner for safe, affordable, and eco-friendly travel across India. Join thousands of happy travelers today!</p>
+                    <p>Your trusted carpooling partner for safe, affordable, and eco-friendly travel across India. Join
+                        thousands of happy travelers today!</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -515,7 +537,7 @@
                         <a href="#"><i class="fab fa-linkedin-in"></i></a>
                     </div>
                 </div>
-                
+
                 <div class="footer-col">
                     <h4>Quick Links</h4>
                     <ul>
@@ -526,7 +548,7 @@
                         <li><a href="#careers">Careers</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-col">
                     <h4>Support</h4>
                     <ul>
@@ -537,24 +559,28 @@
                         <li><a href="#faq">FAQ</a></li>
                     </ul>
                 </div>
-                
+
                 <div class="footer-col">
                     <h4>Contact Info</h4>
                     <ul>
-                        <li><i class="fas fa-phone"></i> <a href="#" onclick="redirectToPhone()">+91 76680 76647</a></li>
-                        <li><i class="fas fa-envelope"></i> <a href="#" onclick="redirectToEmail()">pancardp2@gmail.com</a></li>
+                        <li><i class="fas fa-phone"></i> <a href="#" onclick="redirectToPhone()">+91 76680 76647</a>
+                        </li>
+                        <li><i class="fas fa-envelope"></i> <a href="#"
+                                onclick="redirectToEmail()">pancardp2@gmail.com</a></li>
                         <li><i class="fas fa-clock"></i> 24/7 Support Available</li>
                         <li><i class="fas fa-map-marker-alt"></i> Serving All India</li>
                     </ul>
                 </div>
             </div>
-            
+
             <div class="footer-bottom">
-                <p>&copy; 2025 Quick Safar - Har Safar, Apna Sa. All rights reserved. | Made with <i class="fas fa-heart"></i> in India</p>
+                <p>&copy; 2025 Quick Safar - Har Safar, Apna Sa. All rights reserved. | Made with <i
+                        class="fas fa-heart"></i> in India</p>
             </div>
         </div>
     </footer>
 
     <script src="script.js"></script>
 </body>
+
 </html>
